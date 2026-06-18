@@ -1,0 +1,24 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "\"frontend for vestra\"",
+  "homepage": "https://github.com/gauravpurohit685/Vestra#readme",
+  "bugs": {
+    "url": "https://github.com/gauravpurohit685/Vestra/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauravpurohit685/Vestra.git"
+  },
+  "license": "ISC",
+  "author": "Gaurav Purohit",
+  "type": "commonjs",
+  "scripts": {
+    "test": "jest",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "parcel": "^2.16.4"
+  }
+}
