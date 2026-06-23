@@ -1,0 +1,31 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+import homeHero from "url:../../../../public/homeHero.png"
+const Hero = () => {
+
+    return (
+        <div className='container text-center mb-5'>
+            <div className='row mb-5'>
+                <img src = {homeHero} alt="Hero image" />
+            </div>
+            <div className='row'>
+                <h2>Invest in everything</h2>
+            </div>
+            <div className='row'>
+                <p>
+                    Online platform to invest in stocks, derivatives, mutual funds, ETFs, bonds, and more.
+                </p>
+            </div>
+            <div className='row'>
+                <button className='btn btn-primary m-auto' style={{
+                    width: "auto",
+                }}>
+                    Sign Up
+                </button>
+            </div>
+        </div>
+    )
+}
+
+export default Hero;
