@@ -8,13 +8,15 @@ import Education from "./Education"
 
 const HomePage = () => {
     return (
-        <div style = {{padding: "12rem"}}>
+        <div>
             <Navbar />
-            <Hero />
-            <Award />
-            <Stats />
-            <Pricing />
-            <Education />
+            <div style = {{padding: "12rem"}}>
+                <Hero />
+                <Award />
+                <Stats />
+                <Pricing />
+                <Education /> 
+            </div>
             <Footer />
         </div>
     )
