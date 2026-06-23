@@ -5,6 +5,7 @@ import Footer from "../Footer"
 import Stats from "./Stats"
 import Pricing from "./Pricing"
 import Education from "./Education"
+import OpenAccount from "./OpenAccount"
 
 const HomePage = () => {
     return (
@@ -16,6 +17,7 @@ const HomePage = () => {
                 <Stats />
                 <Pricing />
                 <Education /> 
+                <OpenAccount />
             </div>
             <Footer />
         </div>
