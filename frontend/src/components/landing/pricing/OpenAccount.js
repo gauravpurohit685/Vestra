@@ -15,7 +15,7 @@ const OpenAccount = () => {
                         </p>
                 </div>
                 <div className='row'>
-                        <Link className='btn btn-primary m-auto' style={{
+                        <Link to = "/signup"className='btn btn-primary m-auto' style={{
                             width: "auto",
                         }}>
                             Sign Up
