@@ -11,7 +11,7 @@ const Hero = () => {
                 Sleek, modern, and intuitive trading platforms
             </p>
             <p>
-                Check out our <a className = "text-primary"style={{textDecoration: "none", cursor: "pointer"}}>investment offerings →</a>
+                Check out our <a className = "text-primary"style={{textDecoration: "none"}}>investment offerings →</a>
             </p>
         </div>
     )

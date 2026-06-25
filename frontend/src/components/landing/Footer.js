@@ -15,28 +15,28 @@ const Footer = () => {
                     </div>
                     <div className='col text-center'>
                         <p className='mb-1 row fw-bold' style = {{textDecoration: "none", color: "black"}}>Company</p>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>About</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Producst</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Pricing</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Referral programme</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Careers</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Zerodha tech</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Press & Media</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Zerodha cares(CSR)</a>
+                        <p className='mb-1 row text-muted' >About</p>
+                        <p className='mb-1 row text-muted' >Producst</p>
+                        <p className='mb-1 row text-muted' >Pricing</p>
+                        <p className='mb-1 row text-muted' >Referral programme</p>
+                        <p className='mb-1 row text-muted' >Careers</p>
+                        <p className='mb-1 row text-muted' >Zerodha tech</p>
+                        <p className='mb-1 row text-muted' >Press & Media</p>
+                        <p className='mb-1 row text-muted' >Zerodha cares(CSR)</p>
                     </div>
                     <div className='col text-center'>
                         <p className='mb-1 row fw-bold' style = {{textDecoration: "none", color: "black"}}>Support</p>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black"}}>Contact</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Support portal</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Z-Connect blog</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>List of charges</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Downloads & resources</a>
+                        <p className='mb-1 row text-muted' style = {{textDecoration: "none", color: "black"}}>Contact</p>
+                        <p className='mb-1 row text-muted' >Support portal</p>
+                        <p className='mb-1 row text-muted' >Z-Connect blog</p>
+                        <p className='mb-1 row text-muted' >List of charges</p>
+                        <p className='mb-1 row text-muted' >Downloads & resources</p>
                     </div>
                     <div className='col text-center'>
                         <p className='mb-1 row fw-bold' style = {{textDecoration: "none", color: "black"}}>Account</p>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Open an account</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>Fund transfer</a>
-                        <a className='mb-1 row' style = {{textDecoration: "none", color: "black", cursor: "pointer"}}>60 day challenge</a>
+                        <p className='mb-1 row text-muted' >Open an account</p>
+                        <p className='mb-1 row text-muted' >Fund transfer</p>
+                        <p className='mb-1 row text-muted' >60 day challenge</p>
                     </div>
                 </div>
                 <div className='row fs-6 text-muted' style={{lineHeight: 1.2}}>

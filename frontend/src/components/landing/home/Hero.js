@@ -1,7 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import homeHero from "url:../../../../public/homeHero.png"
+import { Link } from 'react-router-dom';
+
+import homeHero from "url:../../../../public/homeHero.png";
 const Hero = () => {
 
     return (
@@ -18,11 +20,11 @@ const Hero = () => {
                 </p>
             </div>
             <div className='row'>
-                <button className='btn btn-primary m-auto' style={{
+                <Link to = "/signup" className='btn btn-primary m-auto' style={{
                     width: "auto",
                 }}>
                     Sign Up
-                </button>
+                </Link>
             </div>
         </div>
     )

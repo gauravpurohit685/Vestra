@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+import { Link } from 'react-router-dom';
 
 const OpenAccount = () => {
     return (
@@ -14,11 +15,11 @@ const OpenAccount = () => {
                         </p>
                 </div>
                 <div className='row'>
-                        <button className='btn btn-primary m-auto' style={{
+                        <Link className='btn btn-primary m-auto' style={{
                             width: "auto",
                         }}>
                             Sign Up
-                        </button>
+                        </Link>
                 </div>
         </div>
     )

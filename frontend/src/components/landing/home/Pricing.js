@@ -1,6 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+import { Link } from 'react-router-dom';
+
 import { FaArrowRight } from "react-icons/fa";
 
 
@@ -11,7 +13,7 @@ const Pricing = () => {
                 <div className='col-6'>
                     <h2 className='row'>Unbeatable pricing</h2>
                     <p>We pioneered the concept of discount broking and price <br/> transparency in India. Flat fees and no hidden charges</p>
-                    <a className='text-text-primary ' style={{textDecoration: "none", cursor: "pointer"}}>See pricing {<FaArrowRight />}</a>
+                    <Link to = "/pricing" className='text-text-primary ' style={{textDecoration: "none", cursor: "pointer"}}>See pricing {<FaArrowRight />}</Link>
                 </div>
                 <div className='col-6'>
                     <div className='row'>

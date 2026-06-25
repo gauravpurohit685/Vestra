@@ -15,9 +15,9 @@ const Education = () => {
                 <div className= 'col-6'>
                     <h3 className='mb-4'>Free and open market education</h3>
                     <p>Varsity, the largest online stock market education book in the world covering everything from the basics to advanced trading.</p>
-                    <div className='mb-5'><a className='text-primary' style={{textDecoration: "none", cursor: "pointer"}}>Varsity {<FaArrowRight />}</a></div>
+                    <div className='mb-5'><a className='text-primary' style={{textDecoration: "none"}}>Varsity {<FaArrowRight />}</a></div>
                     <p>TradingQ&A, the most active trading and investment community in India for all your market related queries.</p>
-                    <a className='text-primary' style={{textDecoration: "none", cursor: "pointer"}}>TradingQ&A {<FaArrowRight />}</a>
+                    <a className='text-primary' style={{textDecoration: "none"}}>TradingQ&A {<FaArrowRight />}</a>
                 </div>
             </div>
         </div>

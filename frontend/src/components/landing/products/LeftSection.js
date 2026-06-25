@@ -20,7 +20,7 @@ const LeftSection = (props) => {
                     <div className='row mb-4'>
                         {
                             linksLst.map((res,index) => (
-                                <a className='col' style={{textDecoration: 'none', cursor: "pointer"}} key={index}>
+                                <a className='col' style={{textDecoration: 'none'}} key={index}>
                                     {res} <FaArrowRight />
                                 </a>
                             ))
