@@ -592,7 +592,6 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  z-index: -2;
 }
 
 .sensex {
@@ -627,10 +626,6 @@ hr {
   color: rgb(146, 146, 146);
 }
 
-/* sudo selectors */
-.index:hover {
-  cursor: pointer;
-}
 
 .watchlist-container {
   flex-basis: 32%;
