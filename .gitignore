@@ -6,3 +6,6 @@ frontend/.env
 dashboard/node_modules/
 dashboard/.env
 dashboard/build/
+
+backend/node_modules/
+backend/.env
