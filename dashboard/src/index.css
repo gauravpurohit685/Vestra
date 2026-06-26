@@ -733,6 +733,12 @@ hr {
   cursor: pointer;
 }
 
+.actions > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .buy {
   background-color: #4184f3;
   color: #fff;

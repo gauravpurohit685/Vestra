@@ -23,14 +23,14 @@ const Holdings = () => {
           {
             holdings.map((stocks, index) => {
               const currPrice = stocks.price - stocks.qty;
-              const isProfit = currPrice - stocks.avg - stocks.qty >= 0.0;
+              const isProfit = currPrice - (stocks.avg * stocks.qty) >= 0.0;
               const profClass = isProfit? "profit" : "loss";
               const dayClass = stocks.isLoss ? "loss": "profit"
 
               return (
                 <tr key={index}>
                   <td>{stocks.name}</td>
-                  <td>{stocks.name}</td>
+                  <td>{stocks.qty}</td>
                   <td>{stocks.avg.toFixed(2)}</td>
                   <td>{stocks.price.toFixed(2)}</td>
                   <td>{currPrice.toFixed(2)}</td>
