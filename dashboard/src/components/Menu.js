@@ -51,11 +51,6 @@ const Menu = () => {
               <p>Funds</p>
             </Link>
           </li>
-          <li >
-            <Link to = "/apps" className = {menuActive === 4 ? activeMenuClass: menuClass} style = {{textDecoration: "none"}}onClick = { () => (handleMenuChange(5))}>
-              <p>Apps</p>
-            </Link>
-          </li>
         </ul>
         <hr />
         <div className="profile" onClick = {() => {handleDropdownClick()}}>

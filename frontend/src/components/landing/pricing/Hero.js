@@ -29,7 +29,8 @@ const Hero = () => {
                         <p style = {{lineHeight: 2}}>All direct mutual fund investments are absolutely free — ₹ 0 commissions & DP charges.</p>
                     </div>
                 </div>
-            </div>
+            </div> 
+                 
         </div>
         
     )
