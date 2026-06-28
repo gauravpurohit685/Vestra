@@ -8,6 +8,8 @@ import AboutPage from "./src/components/landing/about/AboutPage";
 import ProductPage from "./src/components/landing/products/ProductPage";
 import PricingPage from "./src/components/landing/pricing/PricingPage";
 import SupportPage from "./src/components/landing/support/SupportPage";
+import Signup from "./src/components/landing/signup/Signup";
+import Login from "./src/components/landing/signup/Login";
 
 
 const appRouter = createBrowserRouter([
@@ -30,6 +32,14 @@ const appRouter = createBrowserRouter([
     {
         path: "/support",
         element: <SupportPage />
+    },
+    {
+        path: "/signup",
+        element :<Signup />
+    },
+    {
+        path: "/login",
+        element: <Login />
     }
 ])
 

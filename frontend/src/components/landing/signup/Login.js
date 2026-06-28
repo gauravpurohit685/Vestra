@@ -1,13 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+
 import signup from "url:../../../../public/signup.png";
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 
-import {Link} from "react-router-dom";
+import {Link} from "react-router-dom"
 
-const Signup = () => {
+const Login = () => {
 
     return (
         <>
@@ -26,29 +27,9 @@ const Signup = () => {
                     </div>
                     <div className='col-6'>
                         <div className="card shadow-sm p-4 border-0">
-                            <h3 className="text-center mb-4">Sign Up</h3>
+                            <h3 className="text-center mb-4">Login</h3>
 
                             <form>
-                                <div className="row">
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label">First Name</label>
-                                    <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="First Name"
-                                    />
-                                </div>
-
-                                <div className="col-md-6 mb-3">
-                                    <label className="form-label">Last Name</label>
-                                    <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Last Name"
-                                    />
-                                </div>
-                                </div>
-
                                 <div className="mb-3">
                                 <label className="form-label">Email</label>
                                 <input
@@ -68,17 +49,18 @@ const Signup = () => {
                                 </div>
 
                                 <button type="submit" className="btn btn-primary w-100">
-                                Create Account
+                                Login
                                 </button>
 
                                 <p className="text-center mt-3 mb-0">
-                                    Already have an account?{" "}
-                                    <Link to="/login" className="text-decoration-none">
-                                        Login
-                                    </Link>
+                                Don't have an account?{" "}
+                                <Link to="/signup" className="text-decoration-none">
+                                    Sign Up
+                                </Link>
                                 </p>
                             </form>
                             </div>
+                        
                     </div>
                 </div>
             </div>
@@ -89,4 +71,4 @@ const Signup = () => {
 };
 
 
-export default Signup;
+export default Login;

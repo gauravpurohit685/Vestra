@@ -7,7 +7,7 @@ import logo from "url:../../../public/logo.svg";
 
 const Navbar = () => {
     return (
-        <nav className="navbar navbar-expand-lg border-bottom" style={{backgroundColor: "white", position: "fixed", width: "100%"}}>
+        <nav className="navbar navbar-expand-lg border-bottom" style={{backgroundColor: "white", position: "fixed", width: "100%", zIndex: "10"}}>
             <div className="container py-2 d-flex justify-content-around">
                 <Link className="navbar-brand" to="/">
                     <img src = {logo} style = {{width: "30%"}}/>
