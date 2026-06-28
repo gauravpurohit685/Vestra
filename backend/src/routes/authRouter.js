@@ -3,7 +3,6 @@ const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const authValidator = require("../validator/authValidator");
-const Gaps = require("../models/gapsSchema");
 const userAuth = require("../middleware/userAuth");
 require("dotenv").config();
 
@@ -30,11 +29,6 @@ authRouter.post("/signup", async (req, res) => {
         })
 
         await user.save();
-
-        const gaps = new Gaps({
-            userId: user._id
-        });
-        await gaps.save();
 
         res.json({
             message: "User registered successfully!"
