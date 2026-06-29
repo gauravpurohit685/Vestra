@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import ReactDOM from "react-dom/client";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -10,6 +10,63 @@ import PricingPage from "./src/components/landing/pricing/PricingPage";
 import SupportPage from "./src/components/landing/support/SupportPage";
 import Signup from "./src/components/landing/signup/Signup";
 import Login from "./src/components/landing/signup/Login";
+
+
+
+const Root = () => {
+    const [loadState, setLoadState] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        verifyToken();
+    }, []);
+
+
+    const verifyToken = async () => {
+        try{
+            const msg = await fetch(process.env.VERIFY_API, {
+                credentials: "include"
+            });
+
+
+            if(!msg.ok){
+                throw new Error(msg.message);
+            }
+
+            const json = await msg.json();
+            const {success} = json;
+
+            setIsAuthenticated(success);
+            console.log("User is logged in!");
+        }
+
+        catch(err){
+            console.log("Some error occured while verifying!");
+            setIsAuthenticated(false);
+            console.log("User is logged out!");
+        }
+
+        finally{
+            setTimeout(() => {
+                setLoadState(false);
+            }, 500)
+        }
+    }
+
+    if(loadState){
+        return (
+            <div className="d-flex justify-content-center align-items-center vh-100">
+            <div className="spinner-grow" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+            </div>
+        )
+    }
+
+    return( 
+        <RouterProvider router={appRouter} />
+    )
+}
 
 
 const appRouter = createBrowserRouter([
@@ -44,4 +101,4 @@ const appRouter = createBrowserRouter([
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<RouterProvider router = {appRouter} />);
+root.render(<Root />);

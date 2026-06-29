@@ -1,13 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import signup from "url:../../../../public/signup.png";
+import signupImg from "url:../../../../public/signupImg.png";
 import Navbar from '../Navbar';
 import Footer from '../Footer';
+import signup from '../../../utils/signup';
 
 import {Link} from "react-router-dom";
+import { useState } from 'react';
 
 const Signup = () => {
+
+    const [firstName , setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [emailId, setEmailId] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [isMessage, setIsMessage] = useState(false);
+    const [message, setMessage] = useState("");
+
+
+    const signUpHandler = (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        signup({firstName, lastName, emailId, password, setIsLoading, setIsMessage, setMessage});
+    }
 
     return (
         <>
@@ -22,13 +41,13 @@ const Signup = () => {
 
                 <div className='row pt-5'>
                     <div className='col-6'>
-                        <img src = {signup} style = {{width: "100%"}}/>
+                        <img src = {signupImg} style = {{width: "100%"}}/>
                     </div>
                     <div className='col-6'>
                         <div className="card shadow-sm p-4 border-0">
                             <h3 className="text-center mb-4">Sign Up</h3>
 
-                            <form>
+                            <form onSubmit={signUpHandler}>
                                 <div className="row">
                                 <div className="col-md-6 mb-3">
                                     <label className="form-label">First Name</label>
@@ -36,6 +55,8 @@ const Signup = () => {
                                     type="text"
                                     className="form-control"
                                     placeholder="First Name"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
                                     />
                                 </div>
 
@@ -45,6 +66,8 @@ const Signup = () => {
                                     type="text"
                                     className="form-control"
                                     placeholder="Last Name"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
                                     />
                                 </div>
                                 </div>
@@ -55,6 +78,8 @@ const Signup = () => {
                                     type="email"
                                     className="form-control"
                                     placeholder="Enter your email"
+                                    value={emailId}
+                                    onChange={(e) => setEmailId(e.target.value)}
                                 />
                                 </div>
 
@@ -64,11 +89,19 @@ const Signup = () => {
                                     type="password"
                                     className="form-control"
                                     placeholder="Enter your password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                                 </div>
 
+                                {isMessage && <p className='text-center text-danger'>{message}</p>}
+
                                 <button type="submit" className="btn btn-primary w-100">
-                                Create Account
+                                    {
+                                        isLoading?
+                                        "Creating account..":
+                                        "Create account"
+                                    }
                                 </button>
 
                                 <p className="text-center mt-3 mb-0">
