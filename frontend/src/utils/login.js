@@ -54,7 +54,7 @@ const login = async ({emailId , password, setIsLoginSuccessful, setErrorMessage,
         setIsLoading(false);
     }
     
-    window.location.replace("https://www.google.com");
+    console.log(process.env.DASHBOARD_URL);
   }  
 
   catch(err){

@@ -15,7 +15,6 @@ import Login from "./src/components/landing/signup/Login";
 
 const Root = () => {
     const [loadState, setLoadState] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         verifyToken();
@@ -30,19 +29,19 @@ const Root = () => {
 
 
             if(!msg.ok){
-                throw new Error(msg.message);
+                const data = await msg.json();
+                throw new Error(data.message);
             }
 
             const json = await msg.json();
-            const {success} = json;
 
-            setIsAuthenticated(success);
             console.log("User is logged in!");
+
+            window.location.replace(process.env.DASHBOARD_URL);
         }
 
         catch(err){
             console.log("Some error occured while verifying!");
-            setIsAuthenticated(false);
             console.log("User is logged out!");
         }
 
