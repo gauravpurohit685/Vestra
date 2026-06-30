@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/userSchema");
+const Account = require("../models/accountSchema");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const authValidator = require("../validator/authValidator");
@@ -29,6 +30,12 @@ authRouter.post("/signup", async (req, res) => {
         })
 
         await user.save();
+
+        // This part is to create a account..
+        const account = new Account({
+            userId: user._id
+        });
+        await account.save()
 
         res.json({
             message: "User registered successfully!"

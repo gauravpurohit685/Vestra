@@ -51,10 +51,12 @@ const login = async ({emailId , password, setIsLoginSuccessful, setErrorMessage,
     }
     
     if(setIsLoading){
-        setIsLoading(false);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500)  
     }
     
-    console.log(process.env.DASHBOARD_URL);
+    window.location.replace(process.env.DASHBOARD_URL);
   }  
 
   catch(err){

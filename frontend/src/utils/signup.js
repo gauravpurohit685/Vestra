@@ -41,7 +41,10 @@ const signup = async ({firstName, lastName, emailId, password, setIsMessage, set
             const {message} = await res.json();
             throw new Error(message);
         }
-        setIsLoading(false);
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500)
         login({emailId: emailId.trim().toLowerCase() , password});
 
     }
