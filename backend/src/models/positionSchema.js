@@ -44,8 +44,14 @@ const positionSchema = new mongoose.Schema(
 
 // One open MIS position per stock per user
 positionSchema.index(
-    { userId: 1, symbol: 1 },
-    { unique: true }
+    {
+        userId: 1,
+        symbol: 1,
+        transactionType: 1
+    },
+    {
+        unique: true
+    }
 );
 
 module.exports = mongoose.model("Position", positionSchema);
