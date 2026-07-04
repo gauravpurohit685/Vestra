@@ -1,230 +1,261 @@
 const express = require("express");
+
 const Holding = require("../models/holdingSchema");
 const Account = require("../models/accountSchema");
 const Order = require("../models/orderSchema");
 
 const userAuth = require("../middleware/userAuth");
-
 const holdingValidator = require("../validator/holdingValidator");
 
 const holdingRouter = express.Router();
+
 holdingRouter.use("/holding", userAuth);
 
-holdingRouter.get("/holding", async(req, res) => {
-    try{
+async function getAccount(userId) {
+
+    const account = await Account.findOne({
+        userId
+    });
+
+    if (!account) {
+        throw new Error("Trading account not found.");
+    }
+
+    return account;
+
+}
+
+async function createOrder({
+    userId,
+    symbol,
+    transactionType,
+    quantity,
+    price
+}) {
+
+    const order = new Order({
+        userId,
+        symbol,
+        product: "CNC",
+        transactionType,
+        quantity,
+        price,
+        status: "EXECUTED"
+    });
+
+    await order.save();
+
+}
+
+async function debitTradingBalance(userId, amount) {
+
+    await Account.findOneAndUpdate(
+        {
+            userId
+        },
+        {
+            $inc: {
+                tradingBalance: -amount
+            }
+        },
+        {
+            runValidators: true
+        }
+    );
+
+}
+
+async function creditTradingBalance(userId, amount) {
+
+    await Account.findOneAndUpdate(
+        {
+            userId
+        },
+        {
+            $inc: {
+                tradingBalance: amount
+            }
+        },
+        {
+            runValidators: true
+        }
+    );
+
+}
+
+holdingRouter.get("/holding", async (req, res) => {
+
+    try {
+
         const holdings = await Holding.find({
             userId: req.user._id
-        }).sort({ createdAt: -1 });
+        }).sort({
+            createdAt: -1
+        });
 
-        res.json({holdings});
+        res.json({
+            holdings
+        });
+
     }
-    catch(err){
-        res.status(400).json(
-            {message: "Error getting the holdings: " + err.message}
-        );
+    catch (err) {
+
+        res.status(400).json({
+            message: err.message
+        });
+
     }
+
 });
 
-holdingRouter.post("/holding/buy", async(req, res) => {
-    try{
-        const {symbol, quantity, price} = holdingValidator(req.body);
+holdingRouter.post("/holding/buy", async (req, res) => {
 
-        const holding = await Holding.findOne({
-            userId: req.user._id,
-            symbol
-        })
+    try {
 
-        const account = await Account.findOne({
-            userId: req.user._id
-        })
+        const {
+            symbol,
+            quantity,
+            price
+        } = holdingValidator(req.body);
 
-        if(account.tradingBalance < quantity* price){
-            throw new Error("Inadequate funds!")
+        const account = await getAccount(req.user._id);
+
+        const totalAmount = quantity * price;
+
+        if (account.tradingBalance < totalAmount) {
+            throw new Error("Insufficient trading balance.");
         }
 
-        if(!holding){
-            const newHolding = new Holding({
+        let holding = await Holding.findOne({
+            userId: req.user._id,
+            symbol
+        });
+
+        if (!holding) {
+
+            holding = new Holding({
                 userId: req.user._id,
                 symbol,
                 quantity,
                 averagePrice: price
-            })
+            });
 
-            await newHolding.save();
+            await holding.save();
 
+        }
+        else {
 
-            const newAccount = {
-                tradingBalance: account.tradingBalance - (quantity * price)
-            }
+            const totalQuantity =
+                holding.quantity + quantity;
 
-            await Account.findOneAndUpdate({
-                userId: req.user._id
-            }, newAccount)
+            const averagePrice =
+                (
+                    holding.averagePrice * holding.quantity +
+                    quantity * price
+                ) / totalQuantity;
 
+            holding.quantity = totalQuantity;
+            holding.averagePrice = averagePrice;
 
-            const newOrder = new Order({
-                userId: req.user._id,
-                symbol,
-                product: "CNC",
-                transactionType: "BUY",
-                quantity,
-                price,
-                status: "EXECUTED"
-            })
+            await holding.save();
 
-            await newOrder.save();
-
-            res.json({
-                message: "Shares Bought successfully!"
-            })
-
-            return;
         }
 
-        const newHolding = {
+        await debitTradingBalance(
+            req.user._id,
+            totalAmount
+        );
+
+        await createOrder({
             userId: req.user._id,
             symbol,
-            quantity: quantity + holding.quantity,
-            averagePrice: (holding.averagePrice*holding.quantity + price*quantity)/(quantity + holding.quantity)
-        }
-
-        await Holding.findOneAndUpdate({
-            userId: req.user._id,
-            symbol
-        }, newHolding);
-
-        
-
-        const newAccount = {
-            tradingBalance: account.tradingBalance - (quantity * price)
-        }
-
-        await Account.findOneAndUpdate({
-            userId: req.user._id
-        }, newAccount)
-
-        const newOrder = new Order({
-                userId: req.user._id,
-                symbol,
-                product: "CNC",
-                transactionType: "BUY",
-                quantity,
-                price,
-                status: "EXECUTED"
-            })
-
-            await newOrder.save();
+            transactionType: "BUY",
+            quantity,
+            price
+        });
 
         res.json({
-            message: "Shares Bought successfully!"
-        })
-
-    }
-    catch(err){
-        res.status(400).json({
-            message: "Error Buying the shares!" + err.message
+            message: "Shares bought successfully.",
+            holding
         });
+
     }
-})
+    catch (err) {
 
+        res.status(400).json({
+            message: err.message
+        });
 
-holdingRouter.post("/holding/sell", async(req, res) => {
-    try{
-        const {symbol, quantity, price} = holdingValidator(req.body);
+    }
 
+});
+
+holdingRouter.post("/holding/sell", async (req, res) => {
+
+    try {
+
+        const {
+            symbol,
+            quantity,
+            price
+        } = holdingValidator(req.body);
 
         const holding = await Holding.findOne({
             userId: req.user._id,
             symbol
-        })
+        });
 
-        if(!holding){
-            throw new Error("No shares to sell!");
+        if (!holding) {
+            throw new Error("No shares available to sell.");
         }
 
-        if(quantity > holding.quantity){
-            throw new Error("Inadequate Number of Shares");
+        if (quantity > holding.quantity) {
+            throw new Error("Insufficient number of shares.");
         }
 
-        else if(quantity < holding.quantity){
+        const totalAmount = quantity * price;
 
-            await Holding.findOneAndUpdate({
-                userId: req.user._id,
-                symbol
-            }, {
-                userId: req.user._id,
-                symbol,
-                quantity: holding.quantity - quantity,
-                averagePrice: holding.averagePrice
+        holding.quantity -= quantity;
+
+        if (holding.quantity === 0) {
+
+            await Holding.deleteOne({
+                _id: holding._id
             });
 
-            const account = await Account.findOne({
-                userId: req.user._id
-            })
-
-            const newAccount = {
-                tradingBalance: account.tradingBalance + (quantity * price)
-            }
-
-            await Account.findOneAndUpdate({
-                userId: req.user._id
-            }, newAccount)
-
-            const newOrder = new Order({
-                userId: req.user._id,
-                symbol,
-                product: "CNC",
-                transactionType: "SELL",
-                quantity,
-                price,
-                status: "EXECUTED"
-            })
-
-            await newOrder.save();
-
-            res.json({
-                message: "Shares sold successfully!" 
-            })
         }
-        else{
-            await Holding.findOneAndDelete({
-                userId: req.user._id,
-                symbol
-            })
+        else {
 
-            const account = await Account.findOne({
-                userId: req.user._id
-            })
+            await holding.save();
 
-            const newAccount = {
-                tradingBalance: account.tradingBalance + (quantity * price)
-            }
-
-            await Account.findOneAndUpdate({
-                userId: req.user._id
-            }, newAccount)
-
-            const newOrder = new Order({
-                userId: req.user._id,
-                symbol,
-                product: "CNC",
-                transactionType: "SELL",
-                quantity,
-                price,
-                status: "EXECUTED"
-            })
-
-            await newOrder.save();
-
-            res.json ({
-                message: "Shares sold successfully!" 
-            })
         }
 
-    }
-    catch(err){
-        res.status(400).json({
-            message: "Error selling the shares!" + err.message
+        await creditTradingBalance(
+            req.user._id,
+            totalAmount
+        );
+
+        await createOrder({
+            userId: req.user._id,
+            symbol,
+            transactionType: "SELL",
+            quantity,
+            price
         });
+
+        res.json({
+            message: "Shares sold successfully."
+        });
+
     }
-})
+    catch (err) {
+
+        res.status(400).json({
+            message: err.message
+        });
+
+    }
+
+});
+
+module.exports = holdingRouter;

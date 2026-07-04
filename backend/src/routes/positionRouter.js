@@ -1,360 +1,360 @@
-const express  = require("express");
+const express = require("express");
+
 const Account = require("../models/accountSchema");
 const Order = require("../models/orderSchema");
 const Position = require("../models/positionSchema");
-const Holding = require("../models/holdingSchema");
 
 const userAuth = require("../middleware/userAuth");
 const positionValidator = require("../validator/positionValidator");
 
 const positionRouter = express.Router();
+
 positionRouter.use("/position", userAuth);
 
+async function getAccount(userId) {
+
+    const account = await Account.findOne({
+        userId
+    });
+
+    if (!account) {
+        throw new Error("Trading account not found.");
+    }
+
+    return account;
+}
+
+async function createOrder({
+    userId,
+    symbol,
+    transactionType,
+    quantity,
+    price
+}) {
+
+    const order = new Order({
+        userId,
+        symbol,
+        product: "MIS",
+        transactionType,
+        quantity,
+        price,
+        status: "EXECUTED"
+    });
+
+    await order.save();
+}
+
+async function debitTradingBalance(userId, amount) {
+
+    await Account.findOneAndUpdate(
+        {
+            userId
+        },
+        {
+            $inc: {
+                tradingBalance: -amount
+            }
+        },
+        {
+            runValidators: true
+        }
+    );
+}
+
+async function creditTradingBalance(userId, amount) {
+
+    await Account.findOneAndUpdate(
+        {
+            userId
+        },
+        {
+            $inc: {
+                tradingBalance: amount
+            }
+        },
+        {
+            runValidators: true
+        }
+    );
+}
+
 positionRouter.get("/position", async (req, res) => {
-    try{
+
+    try {
+
         const positions = await Position.find({
-                    userId: req.user._id
-                }).sort({ createdAt: -1 });
-        
-        res.json({positions});
+            userId: req.user._id
+        }).sort({
+            createdAt: -1
+        });
+
+        res.json({
+            positions
+        });
+
     }
-    catch(err){
+    catch (err) {
+
         res.status(400).json({
-            message: "Could not get the positions"
-        })
+            message: err.message
+        });
+
     }
+
 });
+
+// buy positions
 
 positionRouter.post("/position/buy", async (req, res) => {
-    try{
-        const {symbol, quantity, price} = positionValidator(req.body);
 
-        const position = await Position.findOne({
-            userId: req.user._id,
+    try {
+
+        const {
             symbol,
-            transactionType: "BUY"
-        })
-        
-        const account = await Account.findOne({
-            userId: req.user._id
-        })
-
-        if(!account){
-            throw new Error("Account doesn't exist")
-        }
-        
-        if(account.tradingBalance < quantity* price){
-            throw new Error("Inadequate funds!")
-        }
-
-        if(!position){
-            const newPosition = new Position({
-                userId: req.user._id,
-                symbol,
-                product: "MIS",
-                quantity,
-                averagePrice: price,
-                transactionType: "BUY"
-            })
-
-            await newPosition.save();
-
-            const newAccount = {
-                tradingBalance: account.tradingBalance - (quantity * price)
-            }
-            
-            await Account.findOneAndUpdate({
-                userId: req.user._id
-            }, newAccount)
-
-            const newOrder = new Order({
-                    userId: req.user._id,
-                    symbol,
-                    product: "MIS",
-                    transactionType: "BUY",
-                    quantity,
-                    price,
-                    status: "EXECUTED"
-                })
-            
-                await newOrder.save();
-            
-                res.json({
-                    message: "Shares Bought successfully!"
-                })
-            
-            return;
-        }
-
-        const newPosition = {
-            userId: req.user._id,
-            symbol,
-            quantity: quantity + position.quantity,
-            averagePrice: (position.averagePrice*position.quantity + price*quantity)/(quantity + position.quantity)
-        }
-
-        await Position.findOneAndUpdate({
-            userId: req.user._id,
-            symbol,
-            transactionType: "BUY"
-        }, newPosition);
-
-        const newAccount = {
-            tradingBalance: account.tradingBalance - (quantity * price)
-        }
-        
-        await Account.findOneAndUpdate({
-            userId: req.user._id
-        }, newAccount)
-        
-        const newOrder = new Order({
-            userId: req.user._id,
-            symbol,
-            product: "MIS",
-            transactionType: "BUY",
             quantity,
-            price,
-            status: "EXECUTED"
-        })
-        
-        await newOrder.save();
-        
-        res.json({
-            message: "Shares Bought successfully!"
-        })
-    }
-    catch(err){
-        res.status(400).json({
-            message: "Error Buying the shares!" + err.message
-        });
-    }
-});
+            price
+        } = positionValidator(req.body);
 
+        const account = await getAccount(req.user._id);
 
-positionRouter.post("/position/sell", async (req, res) => {
-    try{
-        const {symbol, quantity, price} = positionValidator(req.body);
+        const totalAmount = quantity * price;
 
-        const position = await Position.findOne({
-            userId: req.user._id,
-            symbol,
-            transactionType: "SELL"
-        })
+        if (account.tradingBalance < totalAmount) {
+            throw new Error("Insufficient trading balance.");
+        }
 
-        const holding = await Holding.findOne({
+        let position = await Position.findOne({
             userId: req.user._id,
             symbol
-        })
+        });
 
-        const account = await Account.findOne({
-            userId: req.user._id
-        })
+        if (!position) {
 
-        if(!account){
-            throw new Error("Account does not exist")
-        }
-
-        if(!holding){
-            throw new Error("Holding could not be found!")
-        }
-
-        if(!position){
-            if(quantity > holding.quantity){
-                throw new Error("Inadequate number of shares");
-            }
-
-            const newPosition = new Position({
+            position = new Position({
                 userId: req.user._id,
                 symbol,
                 product: "MIS",
                 quantity,
-                averagePrice: price,
-                transactionType: "SELL"
-            })
+                averagePrice: price
+            });
 
-            await newPosition.save();
-            
-            const newAccount = {
-                tradingBalance: account.tradingBalance + (quantity * price)
-            }
-            
-            await Account.findOneAndUpdate({
-                userId: req.user._id
-            }, newAccount)
+            await position.save();
 
-            const newOrder = new Order({
-                    userId: req.user._id,
-                    symbol,
-                    product: "MIS",
-                    transactionType: "SELL",
-                    quantity,
-                    price,
-                    status: "EXECUTED"
-                })
-            
-                await newOrder.save();
-            
-                res.json({
-                    message: "Shares Sold successfully!"
-                })
-            
-            return;
+        }
+        else {
+
+            const totalQuantity =
+                position.quantity + quantity;
+
+            const averagePrice =
+                (
+                    position.averagePrice * position.quantity +
+                    price * quantity
+                ) / totalQuantity;
+
+            position.quantity = totalQuantity;
+            position.averagePrice = averagePrice;
+
+            await position.save();
+
         }
 
-        if(position.quantity + quantity > holding.quantity){
-            throw new Error("Inadequate number of shares!")
-        }
+        await debitTradingBalance(
+            req.user._id,
+            totalAmount
+        );
 
-        const newPosition = {
+        await createOrder({
             userId: req.user._id,
             symbol,
-            quantity: quantity + position.quantity,
-            averagePrice: (position.averagePrice*position.quantity + price*quantity)/(quantity + position.quantity)
-        }
+            transactionType: "BUY",
+            quantity,
+            price
+        });
 
-        await Position.findOneAndUpdate({
-            userId: req.user._id,
-            symbol,
-            transactionType: "SELL"
-        }, newPosition)
-
-        const newAccount = {
-            tradingBalance: account.tradingBalance + (quantity * price)
-        }
-            
-        await Account.findOneAndUpdate({
-            userId: req.user._id
-        }, newAccount)
-
-        const newOrder = new Order({
-                userId: req.user._id,
-                symbol,
-                product: "MIS",
-                transactionType: "SELL",
-                quantity,
-                price,
-                status: "EXECUTED"
-        })
-        
-        await newOrder.save();
-            
         res.json({
-                message: "Shares Sold successfully!"
-        })
+            message: "Position bought successfully.",
+            position
+        });
+
     }
-    catch(err){
+    catch (err) {
+
         res.status(400).json({
-            message: "Error updating the Sold position" + err.message
-        })
+            message: err.message
+        });
+
     }
+
 });
 
+// close a particular position
 
-// below are the routes to close the positions!!
+positionRouter.post("/position/close/:positionId", async (req, res) => {
 
-positionRouter.post("/position/close/:closeId", async (req, res) => {
-    try{
-        const closeId = req.params;
+    try {
 
-        const position  = await Position.findOne({
-            _id: closeId,
+        const { positionId } = req.params;
+
+        const { price } = req.body;
+
+        if (
+            typeof price !== "number" ||
+            Number.isNaN(price) ||
+            price <= 0
+        ) {
+            throw new Error("Valid closing price is required.");
+        }
+
+        const position = await Position.findOne({
+            _id: positionId,
             userId: req.user._id
         });
 
-        if(!position){
-            throw new Error("Position could not be found!")
+        if (!position) {
+            throw new Error("Position not found.");
         }
 
-        const {symbol, quantity, averagePrice, transactionType} = position;
+        const {
+            symbol,
+            quantity,
+            averagePrice
+        } = position;
 
-        if(transactionType === "BUY"){
-            const holding = await Holding.findOne({
-                userId: req.user._id,
-                symbol
-            })
-            
-            if(!holding){
-                const newHolding = new Holding({
-                    userId: req.user._id,
-                    symbol,
-                    quantity,
-                    averagePrice
-                })
+        const realisedPnL =
+            (price - averagePrice) * quantity;
 
-                newHolding.save();
+        // Credit complete selling amount
 
-                res.json({
-                    message: "Position closed successfully!"
-                })
+        await creditTradingBalance(
+            req.user._id,
+            quantity * price
+        );
 
-                return;
-            }
+        // Create SELL order
 
-            const newHolding = {
-                userId: req.user._id,
-                symbol,
-                quantity: quantity + holding.quantity,
-                averagePrice: (holding.averagePrice*holding.quantity + averagePrice*quantity)/(quantity + holding.quantity)
-            }
+        await createOrder({
+            userId: req.user._id,
+            symbol,
+            transactionType: "SELL",
+            quantity,
+            price
+        });
 
-            await Holding.findOneAndUpdate({
-                userId: req.user._id,
-                symbol
-            }, newHolding)
+        // Delete Position
 
-            await Position.findOneAndDelete({
-                _id: closeId,
-                userId: req.user._id
-            })
+        await Position.deleteOne({
+            _id: positionId,
+            userId: req.user._id
+        });
 
-            res.json({
-                message: "Position closed successfully!"
-            })
-        }
-        else{
-            const holding = await Holding.findOne({
-                userId: req.user._id,
-                symbol
-            })
+        res.json({
 
-            if(!holding){
-                throw new Error("Sorry the holding could not be found!")
-            }
+            message: "Position closed successfully.",
 
-            if(quantity > holding.quantity){
-                throw new Error("Inadequate number of shares!")
-            }
-            else if(quantity < holding.quantity){
-                await Holding.findOneAndUpdate({
-                        userId: req.user._id,
-                        symbol
-                    }, {
-                        userId: req.user._id,
-                        symbol,
-                        quantity: holding.quantity - quantity,
-                        averagePrice: holding.averagePrice
-                });              
-            }
-            else{
-                await Holding.findOneAndDelete({
-                    userId: req.user._id,
-                    symbol
-                })
-            }
+            realisedPnL,
 
-            await Position.findOneAndDelete({
-                _id: closeId,
-                userId: req.user._id
-            })
-            
-            res.json({
-                message: "Position closed successfully"
-            })
-        }
+            exitPrice: price,
+
+            averagePrice,
+
+            quantity
+
+        });
+
     }
-    catch(err){
+    catch (err) {
+
         res.status(400).json({
-            message: "Position could not be closed: " + err.message
-        })
+            message: err.message
+        });
+
     }
-})
+
+});
+
+// close all the positions
+
+positionRouter.post("/position/closeall", async (req, res) => {
+
+    try {
+
+        const { prices } = req.body;
+
+        /*
+            prices = {
+                INFY: 1894,
+                TCS: 3876,
+                RELIANCE: 3021
+            }
+        */
+
+        const positions = await Position.find({
+            userId: req.user._id
+        });
+
+        if (positions.length === 0) {
+            throw new Error("No open positions.");
+        }
+
+        let totalPnL = 0;
+
+        for (const position of positions) {
+
+            const currentPrice = prices[position.symbol];
+
+            if (
+                typeof currentPrice !== "number" ||
+                currentPrice <= 0
+            ) {
+                throw new Error(
+                    `Current price missing for ${position.symbol}`
+                );
+            }
+
+            const realisedPnL =
+                (currentPrice - position.averagePrice) *
+                position.quantity;
+
+            totalPnL += realisedPnL;
+
+            await creditTradingBalance(
+                req.user._id,
+                position.quantity * currentPrice
+            );
+
+            await createOrder({
+                userId: req.user._id,
+                symbol: position.symbol,
+                transactionType: "SELL",
+                quantity: position.quantity,
+                price: currentPrice
+            });
+
+        }
+
+        await Position.deleteMany({
+            userId: req.user._id
+        });
+
+        res.json({
+
+            message: "All positions closed successfully.",
+
+            realisedPnL: totalPnL
+
+        });
+
+    }
+    catch (err) {
+
+        res.status(400).json({
+            message: err.message
+        });
+
+    }
+
+});
+
+module.exports = positionRouter;

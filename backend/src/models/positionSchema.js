@@ -11,7 +11,8 @@ const positionSchema = new mongoose.Schema(
     symbol: {
         type: String,
         required: true,
-        uppercase: true
+        uppercase: true,
+        trim: true
     },
 
     product: {
@@ -30,12 +31,6 @@ const positionSchema = new mongoose.Schema(
         type: Number,
         required: true,
         min: 0
-    },
-
-    transactionType: {
-        type: String,
-        enum: ["BUY", "SELL"],
-        required: true
     }
 },
 {
@@ -47,7 +42,6 @@ positionSchema.index(
     {
         userId: 1,
         symbol: 1,
-        transactionType: 1
     },
     {
         unique: true
