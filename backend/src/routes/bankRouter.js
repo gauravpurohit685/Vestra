@@ -53,7 +53,7 @@ bankRouter.patch("/bank/withdraw", async (req, res) => {
     }
     catch(err){
         res.status(400).json({
-            message: "Error withdrawing the money" + err.message
+            message: "Error withdrawing the money: " + err.message
         })
     }
 })
@@ -89,7 +89,9 @@ bankRouter.patch("/bank/deposit", async (req, res) => {
     }
     catch(err){
         res.status(400).json({
-            message: "Error Depositing the money" + err.message
+            message: "Error Depositing the money: " + err.message
         })
     }
 })
+
+module.exports = bankRouter;

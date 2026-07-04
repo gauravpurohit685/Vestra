@@ -19,3 +19,5 @@ orderRouter.get("/order", async (req, res) => {
        })
     }
 })
+
+module.exports = orderRouter
