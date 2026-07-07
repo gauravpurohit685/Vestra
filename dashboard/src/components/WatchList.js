@@ -1,16 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
-// import { watchlist } from "../data/data";
-
 import WatchListItem from "./WatchListItem";
+
+import {io} from "socket.io-client";
+
 
 const WatchList = () => {
 
   const [watchlist, setWatchList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
+  const socketRef = useRef(null);
 
   const fetchWatchList = async () => {
     try{
@@ -24,8 +26,54 @@ const WatchList = () => {
 
       const data = await res.json();
 
-      setWatchList(data);
+      setWatchList(data.data);
       setIsLoading(false);
+
+      socketRef.current.io = io(process.env.BACKEND_URL, {
+        withCredentials: true
+      })
+
+      socketRef.current.on("market-update", (trades) => {
+
+    setWatchList(prev => {
+
+        const updated = [...prev];
+
+        trades.forEach(trade => {
+
+            const stock = updated.find(
+                stock => stock.symbol === trade.s
+            );
+
+            if(!stock)
+                return;
+
+            stock.currentPrice = trade.p;
+
+            stock.change = Number(
+                (trade.p - stock.previousClose).toFixed(2)
+            );
+
+            stock.percentChange = Number(
+                (
+                    ((trade.p - stock.previousClose) /
+                    stock.previousClose) * 100
+                ).toFixed(2)
+            );
+
+            stock.high = Math.max(stock.high, trade.p);
+
+            stock.low = Math.min(stock.low, trade.p);
+
+            stock.timestamp = trade.t;
+
+        });
+
+        return updated;
+
+    });
+
+});
     }
     catch(err){
       console.log(err.message);
@@ -36,6 +84,12 @@ const WatchList = () => {
 
   useEffect(() => {
     fetchWatchList()
+
+    return () => {
+
+      socketRef.current?.disconnect();
+
+    }
   },[])
 
   if(isLoading){
