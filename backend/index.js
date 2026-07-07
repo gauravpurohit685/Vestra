@@ -6,12 +6,17 @@ const {Server} = require("socket.io");
 const WebSocket = require("ws");
 
 const connectDB = require("./src/config/database");
+
+
 const authRouter = require("./src/routes/authRouter");
 const positionRouter = require("./src/routes/positionRouter");
 const profileRouter = require("./src/routes/profileRouter");
 const holdingRouter = require("./src/routes/holdingRouter");
 const bankRouter = require("./src/routes/bankRouter");
 const orderRouter = require("./src/routes/orderRouter");
+const marketRouter = require("./src/routes/marketRouter");
+
+const {marketData, initializeMarketData} = require("./src/service/marketService");
 
 require("dotenv").config();
 
@@ -50,78 +55,86 @@ app.use("/", holdingRouter);
 app.use("/", orderRouter);
 app.use("/", positionRouter);
 app.use("/", profileRouter);
+app.use("/", marketRouter);
 
-io.on("connection", (socket) => {
-    console.log("Connected: ", socket.id);
 
-    socket.on("disconnect", () => {
-        console.log("Disconnected: ", socket.id);
-    })
-});
+const connectToWebsocket = (io) => {
+    io.on("connection", (socket) => {
+        console.log("Connected: ", socket.id);
 
-const finnhubSocket = new WebSocket(
-    `wss://ws.finnhub.io?token=${process.env.FINNHUB_API_KEY}`
-);
+        socket.on("disconnect", () => {
+            console.log("Disconnected: ", socket.id);
+        })
+    });
 
-const companies = [
-    "AAPL",
-    "MSFT",
-    "KO",
-    "PEP",
-    "WMT",
-    "MCD",
-    "JNJ",
-    "PG",
-    "V",
-    "MA",
-    "IBM",
-    "ORCL",
-    "CSCO",
-    "DIS",
-    "NKE"
-];
+    const finnhubSocket = new WebSocket(
+        `wss://ws.finnhub.io?token=${process.env.FINNHUB_API_KEY}`
+    );
 
-finnhubSocket.on("open", () => {
+    const companies = [
+        "AAPL",
+        "MSFT",
+        "KO",
+        "PEP",
+        "WMT",
+        "MCD",
+        "JNJ",
+        "PG",
+        "V",
+        "MA",
+        "IBM",
+        "ORCL",
+        "CSCO",
+        "DIS",
+        "NKE"
+    ];
 
-    console.log("Connected to Finnhub");
+    finnhubSocket.on("open", () => {
 
-    companies.forEach(symbol => {
+        console.log("Connected to Finnhub");
 
-        finnhubSocket.send(
-            JSON.stringify({
-                type: "subscribe",
-                symbol
-            })
-        );
+        companies.forEach(symbol => {
+
+            finnhubSocket.send(
+                JSON.stringify({
+                    type: "subscribe",
+                    symbol
+                })
+            );
+
+        });
 
     });
 
-});
+    finnhubSocket.on("message", (message) => {
 
-finnhubSocket.on("message", (message) => {
+        const parsedData = JSON.parse(message);
 
-    const parsedData = JSON.parse(message);
+        if (parsedData.type !== "trade")
+            return;
 
-    if (parsedData.type !== "trade")
-        return;
+        io.emit("market-update", parsedData.data);
 
-    io.emit("market-update", parsedData.data);
+    });
 
-});
+    finnhubSocket.on("error", (err) => {
 
-finnhubSocket.on("error", (err) => {
+        console.log(err);
 
-    console.log(err);
+    });
 
-});
+    finnhubSocket.on("close", () => {
+        console.log("Finnhub Websocket disconneted successfully!");
+    });
+}
 
-finnhubSocket.on("close", () => {
-    console.log("Finnhub Websocket disconneted successfully!");
-});
-
-
-connectDB().then(() => {
+connectDB().then(async () => {
     console.log("Database connection established successfully!");
+
+    await initializeMarketData();
+
+    connectToWebsocket(io);
+
     server.listen(process.env.PORT, () => {
         console.log("The server is listening successfully!");
     })

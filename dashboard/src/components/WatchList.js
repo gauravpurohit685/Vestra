@@ -1,10 +1,59 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import { watchlist } from "../data/data";
+
+// import { watchlist } from "../data/data";
 
 import WatchListItem from "./WatchListItem";
 
 const WatchList = () => {
+
+  const [watchlist, setWatchList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+
+  const fetchWatchList = async () => {
+    try{
+      const res = await fetch(process.env.MARKET_URL, {
+        credentials: "include"
+      });
+
+      if(!res.ok){
+        throw new Error("No data found!");
+      }
+
+      const data = await res.json();
+
+      setWatchList(data);
+      setIsLoading(false);
+    }
+    catch(err){
+      console.log(err.message);
+      setIsError(true);
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchWatchList()
+  },[])
+
+  if(isLoading){
+    return(
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+        <CircularProgress />
+      </div>
+    )
+  }
+
+  if(isError){
+    return(
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+        <p style = {{textAlign: "center"}}>Some Error Occured!</p>
+      </div>
+    )
+  }
+
   return (
     <div className="watchlist-container">
       <div className="search-container">
