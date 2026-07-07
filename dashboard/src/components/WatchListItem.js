@@ -17,14 +17,17 @@ const WatchListItem = ({stock}) => {
 
     return (
         <li className="item" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <p className={stock.isDown ? "down": "up"}>{stock.name}</p>
+            <p className={(stock.percentChange < 0) ? "down": "up"}>{stock.symbol}</p>
             <div className="itemInfo">
-                <span className="percent" style = {{marginRight: "5px"}}>{stock.percent}</span>
-                {stock.isDown?
+                <span className="percent" style = {{marginRight: "5px"}}>
+                    {stock.percentChange > 0 ? "+" : "-"}
+                    {stock.percentChange.toFixed(2)}%
+                </span>
+                {(stock.percentChange < 0)?
                     <KeyboardArrowDown style = {{marginRight: "5px"}}/>:
                     <KeyboardArrowUp style = {{marginRight: "5px"}}/>
                 }
-                <span className="price" style = {{marginRight: "5px"}}>{stock.price}</span>
+                <span className="price" style = {{marginRight: "5px"}}>{stock.currentPrice.toFixed(2)}</span>
             </div>
 
             {showListItems && <WatchListAction />}
