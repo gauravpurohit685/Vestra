@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
+import WatchListContext from "../context/watchListContext";
 
 const Summary = () => {
+
+  const {watchListData} = useContext(WatchListContext);
+
   return (
     <>
       <div className="username">

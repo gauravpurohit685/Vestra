@@ -1,7 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import WatchListItem from "./WatchListItem";
+
+import WatchListContext from "../context/watchListContext";
 
 import {io} from "socket.io-client";
 
@@ -11,6 +13,8 @@ const WatchList = () => {
   const [watchlist, setWatchList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
+  const { watchListData, setWatchListData } = useContext(WatchListContext);
 
   const socketRef = useRef(null);
 
@@ -29,6 +33,7 @@ const WatchList = () => {
       const data = await res.json();
 
       setWatchList(data.data);
+      setWatchListData(data.data);
       setIsLoading(false);
 
       socketRef.current = io(process.env.REACT_APP_BACKEND_URL, {
@@ -74,6 +79,7 @@ const WatchList = () => {
             return updated;
 
         });
+        setWatchListData(watchlist);
 
       });
     }
@@ -112,17 +118,6 @@ const WatchList = () => {
 
   return (
     <div className="watchlist-container">
-      <div className="search-container">
-        <input
-          type="text"
-          name="search"
-          id="search"
-          placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx"
-          className="search"
-        />
-        <span className="counts"> {watchlist.length} / 50</span>
-      </div>
-
       <ul className="list">
         {
           watchlist.map((stock, index) => (
