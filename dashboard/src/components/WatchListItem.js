@@ -20,7 +20,7 @@ const WatchListItem = ({stock}) => {
             <p className={(stock.percentChange < 0) ? "down": "up"}>{stock.symbol}</p>
             <div className="itemInfo">
                 <span className="percent" style = {{marginRight: "5px"}}>
-                    {stock.percentChange > 0 ? "+" : "-"}
+                    {stock.percentChange > 0 ? "+" : ""}
                     {stock.percentChange.toFixed(2)}%
                 </span>
                 {(stock.percentChange < 0)?

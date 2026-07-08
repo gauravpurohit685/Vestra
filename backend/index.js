@@ -3,7 +3,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const http = require("http");
 const {Server} = require("socket.io");
-const WebSocket = require("ws");
 
 const connectDB = require("./src/config/database");
 
@@ -17,6 +16,7 @@ const orderRouter = require("./src/routes/orderRouter");
 const marketRouter = require("./src/routes/marketRouter");
 
 const {marketData, initializeMarketData} = require("./src/service/marketService");
+const connectToWebsocket = require("./src/service/socketService");
 
 require("dotenv").config();
 
@@ -58,75 +58,7 @@ app.use("/", profileRouter);
 app.use("/", marketRouter);
 
 
-const connectToWebsocket = (io) => {
-    io.on("connection", (socket) => {
-        console.log("Connected: ", socket.id);
 
-        socket.on("disconnect", () => {
-            console.log("Disconnected: ", socket.id);
-        })
-    });
-
-    const finnhubSocket = new WebSocket(
-        `wss://ws.finnhub.io?token=${process.env.FINNHUB_API_KEY}`
-    );
-
-    const companies = [
-        "AAPL",
-        "MSFT",
-        "KO",
-        "PEP",
-        "WMT",
-        "MCD",
-        "JNJ",
-        "PG",
-        "V",
-        "MA",
-        "IBM",
-        "ORCL",
-        "CSCO",
-        "DIS",
-        "NKE"
-    ];
-
-    finnhubSocket.on("open", () => {
-
-        console.log("Connected to Finnhub");
-
-        companies.forEach(symbol => {
-
-            finnhubSocket.send(
-                JSON.stringify({
-                    type: "subscribe",
-                    symbol
-                })
-            );
-
-        });
-
-    });
-
-    finnhubSocket.on("message", (message) => {
-
-        const parsedData = JSON.parse(message);
-
-        if (parsedData.type !== "trade")
-            return;
-
-        io.emit("market-update", parsedData.data);
-
-    });
-
-    finnhubSocket.on("error", (err) => {
-
-        console.log(err);
-
-    });
-
-    finnhubSocket.on("close", () => {
-        console.log("Finnhub Websocket disconneted successfully!");
-    });
-}
 
 connectDB().then(async () => {
     console.log("Database connection established successfully!");

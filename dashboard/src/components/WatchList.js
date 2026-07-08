@@ -16,7 +16,9 @@ const WatchList = () => {
 
   const fetchWatchList = async () => {
     try{
-      const res = await fetch(process.env.MARKET_URL, {
+      console.log(process.env.REACT_APP_MARKET_URL);
+
+      const res = await fetch(process.env.REACT_APP_MARKET_URL, {
         credentials: "include"
       });
 
@@ -29,51 +31,51 @@ const WatchList = () => {
       setWatchList(data.data);
       setIsLoading(false);
 
-      socketRef.current.io = io(process.env.BACKEND_URL, {
+      socketRef.current = io(process.env.REACT_APP_BACKEND_URL, {
         withCredentials: true
       })
 
       socketRef.current.on("market-update", (trades) => {
 
-    setWatchList(prev => {
+        setWatchList(prev => {
 
-        const updated = [...prev];
+            const updated = [...prev];
 
-        trades.forEach(trade => {
+            trades.forEach(trade => {
 
-            const stock = updated.find(
-                stock => stock.symbol === trade.s
-            );
+                const stock = updated.find(
+                    stock => stock.symbol === trade.s
+                );
 
-            if(!stock)
-                return;
+                if(!stock)
+                    return;
 
-            stock.currentPrice = trade.p;
+                stock.currentPrice = trade.p;
 
-            stock.change = Number(
-                (trade.p - stock.previousClose).toFixed(2)
-            );
+                stock.change = Number(
+                    (trade.p - stock.previousClose).toFixed(2)
+                );
 
-            stock.percentChange = Number(
-                (
-                    ((trade.p - stock.previousClose) /
-                    stock.previousClose) * 100
-                ).toFixed(2)
-            );
+                stock.percentChange = Number(
+                    (
+                        ((trade.p - stock.previousClose) /
+                        stock.previousClose) * 100
+                    ).toFixed(2)
+                );
 
-            stock.high = Math.max(stock.high, trade.p);
+                stock.high = Math.max(stock.high, trade.p);
 
-            stock.low = Math.min(stock.low, trade.p);
+                stock.low = Math.min(stock.low, trade.p);
 
-            stock.timestamp = trade.t;
+                stock.timestamp = trade.t;
+
+            });
+
+            return updated;
 
         });
 
-        return updated;
-
-    });
-
-});
+      });
     }
     catch(err){
       console.log(err.message);
