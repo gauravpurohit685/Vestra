@@ -2,13 +2,18 @@ import React, {useState, useEffect, useRef, useContext} from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import WatchListItem from "./WatchListItem";
+import BuyComponent from "./BuyComponent";
 
 import WatchListContext from "../context/watchListContext";
+
+
 
 import {io} from "socket.io-client";
 
 
 const WatchList = () => {
+
+  const [tradeDialog, setTradeDialog] = useState(null);
 
   const [watchlist, setWatchList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -119,15 +124,30 @@ const WatchList = () => {
   }
 
   return (
+    <>
     <div className="watchlist-container">
       <ul className="list">
         {
           watchlist.map((stock, index) => (
-            <WatchListItem stock = {stock} key = {index} />
+            <WatchListItem stock = {stock} key = {stock.symbol} setTradeDialog = {setTradeDialog}/>
           ))
         }
       </ul>
     </div>
+    {tradeDialog?.type === "BUY" && (
+        <BuyComponent
+            symbol={tradeDialog.symbol}
+            onClose={() => setTradeDialog(null)}
+        />
+    )}
+
+    {tradeDialog?.type === "SELL" && (
+        <SellComponent
+            symbol={tradeDialog.symbol}
+            onClose={() => setTradeDialog(null)}
+        />
+    )}
+    </>
   );
 };
 

@@ -30,7 +30,7 @@ const WatchListItem = ({stock}) => {
                 <span className="price" style = {{marginRight: "5px"}}>{stock.currentPrice.toFixed(2)}</span>
             </div>
 
-            {showListItems && <WatchListAction />}
+            {showListItems && <WatchListAction symbol = {stock.symbol}/>}
         </li>
     )
 }

@@ -2,17 +2,29 @@ import { Tooltip, Grow } from "@mui/material";
 
 import { BarChartOutlined, MoreHoriz } from "@mui/icons-material";
 
-const WatchListAction = () => {
+import { useState } from "react";
+
+const WatchListAction = (props) => {
+
+    const {symbol, setTradeDialog} = props;
+
+    const [showBuy, setShowBuy] = useState(false);
+    const [showSell, setShowSell] = useState(false);
+
     return (
-    <span className="actions">
-      <span>
+    <div className="actions">
+      <div>
         <Tooltip
           title="Buy (B)"
           placement="top"
           arrow
           TransitionComponent={Grow}
         >
-          <button className="buy">Buy</button>
+          <button className="buy" onClick={() => setTradeDialog({
+            type = "BUY",
+            symbol = symbol
+          })}>Buy</button>
+      
         </Tooltip>
         <Tooltip
           title="Sell (S)"
@@ -20,7 +32,10 @@ const WatchListAction = () => {
           arrow
           TransitionComponent={Grow}
         >
-          <button className="sell">Sell</button>
+          <button className="sell" onClick={() => setTradeDialog({
+            type = "SELL",
+            symbol = symbol
+          })}>Sell</button>
         </Tooltip>
         <Tooltip
           title="Analytics (A)"
@@ -32,13 +47,8 @@ const WatchListAction = () => {
             <BarChartOutlined className="icon" />
           </button>
         </Tooltip>
-        <Tooltip title="More" placement="top" arrow TransitionComponent={Grow}>
-          <button className="action">
-            <MoreHoriz className="icon" />
-          </button>
-        </Tooltip>
-      </span>
-    </span>
+      </div>
+    </div>
   );
 
 }
