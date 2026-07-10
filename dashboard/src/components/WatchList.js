@@ -33,7 +33,6 @@ const WatchList = () => {
       const data = await res.json();
 
       setWatchList(data.data);
-      setWatchListData(data.data);
       setIsLoading(false);
 
       socketRef.current = io(process.env.REACT_APP_BACKEND_URL, {
@@ -79,7 +78,6 @@ const WatchList = () => {
             return updated;
 
         });
-        setWatchListData(watchlist);
 
       });
     }
@@ -99,6 +97,10 @@ const WatchList = () => {
 
     }
   },[])
+
+  useEffect(() => {
+    setWatchListData(watchlist);
+  }, [watchlist, setWatchListData]);
 
   if(isLoading){
     return(
