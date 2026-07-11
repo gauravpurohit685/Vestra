@@ -719,7 +719,7 @@ hr {
   display: none;
 }
 
-.actions span button {
+.actions div button {
   width: 40px;
   height: 30px;
   border-radius: 4px;
@@ -728,7 +728,7 @@ hr {
   cursor: pointer;
 }
 
-.actions > span {
+.actions > div {
   display: flex;
   align-items: center;
   gap: 6px;

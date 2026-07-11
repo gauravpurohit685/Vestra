@@ -18,8 +18,8 @@ const WatchListAction = (props) => {
           TransitionComponent={Grow}
         >
           <button className="buy" onClick={() => setTradeDialog({
-            type = "BUY",
-            symbol = symbol
+            type : "BUY",
+            symbol : symbol
           })}>Buy</button>
       
         </Tooltip>
@@ -30,8 +30,8 @@ const WatchListAction = (props) => {
           TransitionComponent={Grow}
         >
           <button className="sell" onClick={() => setTradeDialog({
-            type = "SELL",
-            symbol = symbol
+            type : "SELL",
+            symbol : symbol
           })}>Sell</button>
         </Tooltip>
         <Tooltip

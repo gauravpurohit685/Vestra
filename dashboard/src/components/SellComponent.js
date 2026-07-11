@@ -48,6 +48,10 @@ const SellComponent = ({ symbol, onClose }) => {
 
       alert("Order placed successfully!");
 
+      onClose();
+
+      window.location.reload();
+
     } catch (err) {
 
       console.error(err);

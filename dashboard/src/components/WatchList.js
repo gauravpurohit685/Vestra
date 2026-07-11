@@ -5,6 +5,7 @@ import WatchListItem from "./WatchListItem";
 import BuyComponent from "./BuyComponent";
 import SellComponent from "./SellComponent";
 
+
 import WatchListContext from "../context/watchListContext";
 
 
@@ -139,6 +140,7 @@ const WatchList = () => {
         <BuyComponent
             symbol={tradeDialog.symbol}
             onClose={() => setTradeDialog(null)}
+            setTradeDialog = {setTradeDialog}
         />
     )}
 

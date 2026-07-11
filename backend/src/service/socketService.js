@@ -80,6 +80,8 @@ const connectToWebsocket = (io) => {
 
         });
 
+        console.log(parsedData);
+
         io.emit("market-update", parsedData.data);
 
     });

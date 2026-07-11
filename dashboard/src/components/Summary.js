@@ -57,9 +57,9 @@ const Summary = () => {
           bankRes.json(),
         ]);
 
-        setHoldings(holdingsData);
-        setPositions(positionsData);
-        setBank(bankData);
+        setHoldings(holdingsData.holdings);
+        setPositions(positionsData.positions);
+        setBank(bankData.account);
       } catch (err) {
         console.error("Error fetching summary data:", err);
         setIsError(true);

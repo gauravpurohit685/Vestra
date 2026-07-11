@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import WatchListContext from "../context/watchListContext";
 
+
 const getStockPrice = (watchListData, symbol) => {
   const stock = watchListData.find(
     (stock) => stock.symbol === symbol
@@ -9,7 +10,7 @@ const getStockPrice = (watchListData, symbol) => {
   return stock ? stock.currentPrice : 0;
 };
 
-const BuyComponent = ({ symbol, onClose }) => {
+const BuyComponent = ({ symbol, onClose, setTradeDialog }) => {
 
   const { watchListData } = useContext(WatchListContext);
 
@@ -54,6 +55,10 @@ const BuyComponent = ({ symbol, onClose }) => {
 
       alert("Order placed successfully!");
 
+      setTradeDialog(null);
+      onClose();
+
+      window.location.reload();
 
     } catch (err) {
 
