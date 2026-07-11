@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import WatchListAction from "./WatchListAction";
 
-const WatchListItem = ({stock}) => {
+const WatchListItem = ({stock, setTradeDialog}) => {
     
     const [showListItems, setShowListItems] = useState(false);
     
@@ -30,7 +30,7 @@ const WatchListItem = ({stock}) => {
                 <span className="price" style = {{marginRight: "5px"}}>{stock.currentPrice.toFixed(2)}</span>
             </div>
 
-            {showListItems && <WatchListAction symbol = {stock.symbol}/>}
+            {showListItems && <WatchListAction symbol = {stock.symbol} setTradeDialog = {setTradeDialog}/>}
         </li>
     )
 }

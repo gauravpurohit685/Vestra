@@ -9,7 +9,7 @@ const getStockPrice = (watchListData, symbol) => {
   return stock ? stock.currentPrice : 0;
 };
 
-const BuyComponent = ({ symbol }) => {
+const BuyComponent = ({ symbol, onClose }) => {
 
   const { watchListData } = useContext(WatchListContext);
 
@@ -44,6 +44,7 @@ const BuyComponent = ({ symbol }) => {
         body: JSON.stringify({
           symbol,
           quantity,
+          price
         }),
       });
 
@@ -52,6 +53,7 @@ const BuyComponent = ({ symbol }) => {
       }
 
       alert("Order placed successfully!");
+
 
     } catch (err) {
 
@@ -67,107 +69,73 @@ const BuyComponent = ({ symbol }) => {
   };
 
   return (
-    <div
-      style={{
-        width: "320px",
-        padding: "20px",
-        borderRadius: "12px",
-        background: "#ffffff",
-        boxShadow: "0 8px 20px rgba(0,0,0,0.12)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "16px",
-      }}
-    >
+     <div className="buy-dialog">
 
-      <h3 style={{ margin: 0 }}>{symbol}</h3>
-
-      <h2
-        style={{
-          margin: 0,
-          color: "#2e7d32",
-        }}
-      >
-        ₹{price}
-      </h2>
-
-      <div>
-
-        <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: "600",
-          }}
+        <button
+            className="close-btn"
+            onClick={onClose}
         >
-          Quantity
-        </label>
+            ×
+        </button>
 
-        <input
-          type="number"
-          min="1"
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
-          style={{
-            width: "100%",
-            padding: "10px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-          }}
-        />
+        <h3>{symbol}</h3>
 
-      </div>
+        <h2 className="stock-price">
+            ₹{price.toFixed(2)}
+        </h2>
 
-      <div>
+        <div>
 
-        <label
-          style={{
-            display: "block",
-            marginBottom: "8px",
-            fontWeight: "600",
-          }}
+            <label className="label">
+            Quantity
+            </label>
+
+            <input
+            type="number"
+            min="1"
+            step="1"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            className="quantity-input"
+            />
+
+        </div>
+
+        <div>
+
+            <label className="label">
+            Product
+            </label>
+
+            <label className="radio-label">
+            <input
+                type="radio"
+                value="MIS"
+                checked={product === "MIS"}
+                onChange={(e) => setProduct(e.target.value)}
+            />
+            MIS
+            </label>
+
+            <label className="radio-label">
+            <input
+                type="radio"
+                value="CNC"
+                checked={product === "CNC"}
+                onChange={(e) => setProduct(e.target.value)}
+            />
+            CNC
+            </label>
+
+        </div>
+
+        <button
+            className="buy-btn"
+            onClick={handleBuy}
+            disabled={isLoading}
         >
-          Product
-        </label>
-
-        <label style={{ marginRight: "20px" }}>
-          <input
-            type="radio"
-            value="MIS"
-            checked={product === "MIS"}
-            onChange={(e) => setProduct(e.target.value)}
-          />
-          {" "}MIS
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            value="CNC"
-            checked={product === "CNC"}
-            onChange={(e) => setProduct(e.target.value)}
-          />
-          {" "}CNC
-        </label>
-
-      </div>
-
-      <button
-        onClick={handleBuy}
-        disabled={isLoading}
-        style={{
-          padding: "12px",
-          border: "none",
-          borderRadius: "8px",
-          background: "#1976d2",
-          color: "#fff",
-          fontSize: "16px",
-          cursor: "pointer",
-          fontWeight: "600",
-        }}
-      >
-        {isLoading ? "Placing Order..." : "BUY"}
-      </button>
+            {isLoading ? "Placing Order..." : "BUY"}
+        </button>
 
     </div>
   );

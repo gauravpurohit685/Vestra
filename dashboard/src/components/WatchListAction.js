@@ -8,9 +8,6 @@ const WatchListAction = (props) => {
 
     const {symbol, setTradeDialog} = props;
 
-    const [showBuy, setShowBuy] = useState(false);
-    const [showSell, setShowSell] = useState(false);
-
     return (
     <div className="actions">
       <div>
