@@ -1,7 +1,27 @@
 import React, {useContext, useEffect, useState} from "react";
 import WatchListContext from "../context/watchListContext";
 
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { holdings } from "../data/data";
+
+const getStockDetails = (watchListData, symbol) => {
+  const stock = watchListData.find(
+    (stock) => stock.symbol === symbol
+  );
+
+  if (!stock) {
+    return {
+      currentPrice: 0,
+      percentChange: 0,
+    };
+  }
+
+  return {
+    currentPrice: stock.currentPrice,
+    percentChange: stock.percentChange,
+  };
+};
 
 const Holdings = () => {
 
@@ -14,14 +34,16 @@ const Holdings = () => {
   useEffect(() => {
     const fetchHolding = async () => {
       try{
-        const holdingres = await fetch(process.env.REACT_APP_GETHOLDING);
+        const holdingres = await fetch(process.env.REACT_APP_GETHOLDING, {
+          credentials: "include"
+        });
 
-        if(!holdingres){
+        if(!holdingres.ok){
           throw new Error("No valid holding object returned");
         }
 
         const holdingData = await holdingres.json();
-        setHoldings(holdingData);
+        setHoldings(holdingData.holdings);
       }
       catch(err){
         console.log(err.message);
@@ -34,6 +56,22 @@ const Holdings = () => {
 
     fetchHolding()
   }, [])
+
+  if(isLoading){
+    return(
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+            <CircularProgress />
+          </div>
+    )
+  }
+
+  if(isError){
+    return(
+      <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+        <p style = {{textAlign: "center"}}>Error getting the holdings data!</p>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -54,30 +92,38 @@ const Holdings = () => {
 
           {
             holdings.map((stocks, index) => {
-              const currPrice = watchListData.currentPrice;
-              const totprice = currPrice*stocks.quantity;
+
+              const { currentPrice, percentChange } = getStockDetails(
+                watchListData,
+                stocks.symbol
+              );
+
+              const currPrice = currentPrice;
+              const totPrice = currPrice*stocks.quantity;
               const isProfit = currPrice - stocks.averagePrice >= 0.0;
               const profClass = isProfit? "profit" : "loss";
-              const isLoss = watchListData.percentChange < 0;
+              const isLoss = percentChange < 0;
               const dayClass = isLoss ? "loss": "profit";
 
               const netChange = ((currPrice - stocks.averagePrice)/stocks.averagePrice)*100;
 
+              
+
               return (
-                <tr key={index}>
+                <tr key={stocks.symbol}>
                   <td>{stocks.symbol}</td>
                   <td>{stocks.quantity}</td>
                   <td>{stocks.averagePrice.toFixed(2)}</td>
                   <td>{currPrice.toFixed(2)}</td>
-                  <td>{totprice.toFixed(2)}</td>
+                  <td>{totPrice.toFixed(2)}</td>
                   <td className={profClass}>
                       {(totPrice - stocks.averagePrice * stocks.quantity).toFixed(2)}
                   </td>
                   <td className={profClass}>
-                    {netChange}
+                    {netChange.toFixed(2)}%
                   </td>
                   <td className={dayClass}>
-                    {watchListData.percentChange}
+                    {percentChange.toFixed(2)}%
                   </td>
                 </tr>
               )
