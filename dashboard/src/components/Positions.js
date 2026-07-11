@@ -115,7 +115,7 @@ const Positions = () => {
                       {(totPrice - stocks.averagePrice * stocks.quantity).toFixed(2)}
                   </td>
                   <td className={dayClass}>
-                    {percentChange}%
+                    {percentChange.toFixed(2)}%
                   </td>
                 </tr>
               )

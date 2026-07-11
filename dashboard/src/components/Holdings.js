@@ -3,7 +3,6 @@ import WatchListContext from "../context/watchListContext";
 
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { holdings } from "../data/data";
 
 const getStockDetails = (watchListData, symbol) => {
   const stock = watchListData.find(
