@@ -11,9 +11,11 @@ const TransferComponent = ({ type, onclose }) => {
       : process.env.REACT_APP_WITHDRAW;
 
   const handleTransfer = async () => {
-    if (!amount || Number(amount) <= 0) {
-      alert("Please enter a valid amount.");
-      return;
+    const value = amount.trim();
+
+    if (!value || Number(value) <= 0) {
+        alert("Please enter a valid amount.");
+        return;
     }
 
     try {
@@ -67,10 +69,16 @@ const TransferComponent = ({ type, onclose }) => {
 
         <input
           type="number"
-          placeholder="Enter amount"
+          placeholder="Enter amount ($)"
           value={amount}
           min={1}
+          step = {1}
           onChange={(e) => setAmount(e.target.value)}
+            onKeyDown={(e) => {
+            if (e.key === "Enter") {
+            handleTransfer();
+            }
+          }}
         />
 
         <div className="transfer-buttons">
