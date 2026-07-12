@@ -10,7 +10,7 @@ const getStockPrice = (watchListData, symbol) => {
   return stock ? stock.currentPrice : 0;
 };
 
-const BuyComponent = ({ symbol, onClose, setTradeDialog }) => {
+const BuyComponent = ({ symbol, onClose }) => {
 
   const { watchListData } = useContext(WatchListContext);
 
@@ -55,7 +55,6 @@ const BuyComponent = ({ symbol, onClose, setTradeDialog }) => {
 
       alert("Order placed successfully!");
 
-      setTradeDialog(null);
       onClose();
 
       window.location.reload();

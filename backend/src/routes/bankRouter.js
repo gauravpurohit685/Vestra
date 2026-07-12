@@ -43,7 +43,8 @@ bankRouter.patch("/bank/withdraw", async (req, res) => {
         }, {
             $inc: {
                 tradingBalance: -amount,
-                cashBalance: amount
+                cashBalance: amount,
+                payOut: amount
             }
         })
 
@@ -79,7 +80,9 @@ bankRouter.patch("/bank/deposit", async (req, res) => {
         }, {
             $inc: {
                 tradingBalance: amount,
-                cashBalance: -amount
+                cashBalance: -amount,
+                payIn: amount
+                
             }
         })
 

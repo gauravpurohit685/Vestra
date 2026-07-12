@@ -23,6 +23,18 @@ const accountSchema = new mongoose.Schema(
         min: 0
     },
 
+    payIn: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+
+    payOut: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+
     currency: {
         type: String,
         default: "INR"

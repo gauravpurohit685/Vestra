@@ -8,8 +8,8 @@ const Funds = () => {
         <p>Instant, zero-cost fund transfers with UPI </p>
       </div>
       <div className="funds">
-        <Link className="btn btn-green">Add funds</Link>
-        <Link className="btn btn-blue">Withdraw</Link>
+        <Button className="btn btn-green">Add funds</Button>
+        <Button className="btn btn-blue">Withdraw</Button>
       </div>
 
       <div className="d-flex justify-content-center">
@@ -32,46 +32,14 @@ const Funds = () => {
             </div>
             <hr />
             <div className="data">
-              <p>Opening Balance</p>
-              <p>4,043.10</p>
-            </div>
-            <div className="data">
-              <p>Opening Balance</p>
-              <p>3736.40</p>
-            </div>
-            <div className="data">
               <p>Payin</p>
               <p>4064.00</p>
             </div>
             <div className="data">
-              <p>SPAN</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Delivery margin</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Exposure</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Options premium</p>
-              <p>0.00</p>
+              <p>Payout</p>
+              <p>4064.00</p>
             </div>
             <hr />
-            <div className="data">
-              <p>Collateral (Liquid funds)</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Collateral (Equity)</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Total Collateral</p>
-              <p>0.00</p>
-            </div>
           </div>
         </div>
       </div>
