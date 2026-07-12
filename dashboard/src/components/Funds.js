@@ -2,6 +2,8 @@ import React, {useEffect, useState, useContext} from "react";
 import TransferComponent from "./TransferComponent";
 import WatchListContext from "../context/watchListContext";
 
+import { CircularProgress } from "@mui/material";
+
 const calculateNetPL = (watchListData, positions) => {
 
     const currentPriceMap = new Map();
@@ -125,17 +127,17 @@ const Funds = () => {
   const availableCash = account.tradingBalance;
   const payin = account.payIn;
   const payout = account.payOut;
+  const bankAmount = account.cashBalance;
   
 
   return (
-
     <>
       <div className="funds">
         <p>Instant, zero-cost fund transfers with UPI </p>
       </div>
       <div className="funds">
-        <Button className="btn btn-green" onClick = {() => setTransferType("DEPOSIT")}>Add funds</Button>
-        <Button className="btn btn-blue" onClick = {() => setTransferType("WITHDRAW")}>Withdraw</Button>
+        <button className="btn btn-green" onClick = {() => setTransferType("DEPOSIT")}>Add funds</button>
+        <button className="btn btn-blue" onClick = {() => setTransferType("WITHDRAW")}>Withdraw</button>
       </div>
 
       <div className="d-flex justify-content-center">
@@ -155,6 +157,10 @@ const Funds = () => {
             <div className="data">
               <p>Available cash</p>
               <p className="imp">{availableCash.toFixed(2)}</p>
+            </div>
+            <div className="data">
+              <p>Bank cash</p>
+              <p className="imp">{bankAmount.toFixed(2)}</p>
             </div>
             <hr />
             <div className="data">
@@ -176,7 +182,6 @@ const Funds = () => {
           onclose = {() => setTransferType(null)}
         />
       )}
-
     </>
   );
 };
