@@ -141,6 +141,7 @@ const BuyComponent = ({ symbol, onClose }) => {
             {isLoading ? "Placing Order..." : "BUY"}
         </button>
 
+
     </div>
   );
 };

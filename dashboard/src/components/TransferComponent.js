@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const TransferComponent = ({ type, onclose }) => {
   const [amount, setAmount] = useState("");
@@ -14,22 +13,29 @@ const TransferComponent = ({ type, onclose }) => {
     const value = amount.trim();
 
     if (!value || Number(value) <= 0) {
-        alert("Please enter a valid amount.");
-        return;
+      alert("Please enter a valid amount.");
+      return;
     }
 
     try {
       setLoading(true);
 
-      const { data } = await axios.patch(
-        API,
-        {
-          amount: Number(amount),
+      const response = await fetch(API, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          withCredentials: true,
-        }
-      );
+        body: JSON.stringify({
+          amount: Number(value),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
 
       alert(data.message);
 
@@ -38,10 +44,7 @@ const TransferComponent = ({ type, onclose }) => {
       // Reload to fetch updated balances
       window.location.reload();
     } catch (err) {
-      alert(
-        err.response?.data?.message ||
-          "Something went wrong."
-      );
+      alert(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -53,7 +56,6 @@ const TransferComponent = ({ type, onclose }) => {
         className="transfer-modal"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           className="close-btn"
           onClick={onclose}
@@ -69,14 +71,14 @@ const TransferComponent = ({ type, onclose }) => {
 
         <input
           type="number"
-          placeholder="Enter amount ($)"
+          placeholder="Enter amount (₹)"
           value={amount}
           min={1}
-          step = {1}
+          step={1}
           onChange={(e) => setAmount(e.target.value)}
-            onKeyDown={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") {
-            handleTransfer();
+              handleTransfer();
             }
           }}
         />

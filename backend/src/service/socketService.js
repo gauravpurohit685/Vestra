@@ -24,6 +24,8 @@ const connectToWebsocket = (io) => {
 
         companies.forEach(symbol => {
 
+            console.log()
+
             finnhubSocket.send(
                 JSON.stringify({
                     type: "subscribe",
@@ -38,6 +40,8 @@ const connectToWebsocket = (io) => {
     finnhubSocket.on("message", (message) => {
 
         const parsedData = JSON.parse(message);
+
+        console.log(parsedData);
 
         if (
             parsedData.type !== "trade" ||
