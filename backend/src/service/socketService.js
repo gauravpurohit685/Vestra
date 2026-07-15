@@ -24,7 +24,6 @@ const connectToWebsocket = (io) => {
 
         companies.forEach(symbol => {
 
-            console.log()
 
             finnhubSocket.send(
                 JSON.stringify({

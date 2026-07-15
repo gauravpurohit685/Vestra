@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
-import { Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Orders = () => {
   
 
-  const [orders, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -19,15 +21,44 @@ const Orders = () => {
         }
         const orderJson = await orderRes.json();
 
-        setOrder(orderJson.orders);
+        setOrders(orderJson.orders);
+
       }
       catch(err){
         console.log(err.message);
+        setIsError(true);
+      }
+      finally{
+        setIsLoading(false);
       }
     }
 
     fetchOrders()
   }, [])
+
+  if(isLoading){
+      return(
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+              <CircularProgress />
+            </div>
+      )
+    }
+  
+    if(isError){
+      return(
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+          <p style = {{textAlign: "center"}}>Error getting the Orders data!</p>
+        </div>
+      )
+    }
+
+    if(!isLoading && !isError && orders.length === 0){
+      return(
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+          <p style = {{textAlign: "center"}}>No Orders till now!</p>
+        </div>
+      )
+    }
 
   return (
     <>
