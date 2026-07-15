@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
 import WatchListContext from "../context/watchListContext";
-import PositionActions from "./PositionActions";
 
 
 const getStockDetails = (watchListData, symbol) => {
@@ -21,7 +20,7 @@ const getStockDetails = (watchListData, symbol) => {
   };
 };
 
-const PositionsItem = ({stocks}) => {
+const PositionsItem = ({stocks, setDialogData}) => {
 
     const {watchListData} = useContext(WatchListContext);
     
@@ -36,19 +35,14 @@ const PositionsItem = ({stocks}) => {
     const totPrice = currPrice * stocks.quantity;
     const isProfit = currPrice - (stocks.averagePrice) >= 0.0;
     const profClass = isProfit? "profit" : "loss";
-    const dayClass = percentChange < 0 ? "loss": "profit"    
-    
-    const handleMouseEnter = () => {
-        setShowListItems(true);
-    }
-
-    const handleMouseLeave = () => {
-        setShowListItems(false);
-    }
+    const dayClass = percentChange < 0 ? "loss": "profit"     
 
     return (
         <>
-            <tr>
+            <tr className="hover" onClick={() => setDialogData({
+                id: stocks._id,
+                symbol: stocks.symbol
+            })}>
                 <td>{stocks.product}</td>
                 <td>{stocks.symbol}</td>
                 <td>{stocks.quantity}</td>
@@ -61,8 +55,6 @@ const PositionsItem = ({stocks}) => {
                 {percentChange.toFixed(2)}%
                 </td>
             </tr>
-
-            {setShowListItems && <PositionActions id = {stocks._id} price = {currPrice}/>}
         </>
     )
 }

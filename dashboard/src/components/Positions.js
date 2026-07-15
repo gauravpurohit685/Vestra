@@ -2,8 +2,9 @@ import React, {useEffect, useState, useContext} from "react";
 
 import CircularProgress from "@mui/material/CircularProgress";
 
-import WatchListContext from "../context/watchListContext";
 import PositionsItem from "./PositionsItems";
+
+import ConfirmDialogBox from "./ConfirmDialogBox";
 
 
 const Positions = () => {
@@ -11,10 +12,9 @@ const Positions = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [positions, setPositions] = useState([]);
-  
-    const {watchListData} = useContext(WatchListContext);
 
-  
+    const [dialogData, setDialogData] = useState(null);
+
     useEffect(() => {
       const fetchPositions = async () => {
         try{
@@ -72,13 +72,20 @@ const Positions = () => {
             <th>P&L</th>
             <th>Chg.</th>
           </tr>
-
           {
-            positions.map((stocks, index) => {
-              <PositionsItem stocks = {stocks} key = {stocks.symbol}/>
-          })
+            positions.map((stocks) => (
+              <PositionsItem stocks = {stocks} setDialogData = {setDialogData}  key = {stocks.symbol}/>
+            ))
         }
         </table>
+        {
+          dialogData && (
+            <ConfirmDialogBox 
+              dialogData = {dialogData}
+              onClose = {() => setDialogData(null)}
+            />
+          )
+        }
       </div>
     </>
   );
