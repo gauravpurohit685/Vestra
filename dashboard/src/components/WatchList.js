@@ -140,7 +140,6 @@ const WatchList = () => {
         <BuyComponent
             symbol={tradeDialog.symbol}
             onClose={() => setTradeDialog(null)}
-            setTradeDialog = {setTradeDialog}
         />
     )}
 

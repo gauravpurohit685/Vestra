@@ -1185,3 +1185,99 @@ hr {
 .confirm-btn:hover {
   background: #d93a50;
 }
+
+.profile-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.profile-loader {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 12px;
+    text-align: center;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #387ed1;
+    color: white;
+    font-size: 34px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 18px;
+}
+
+.profile-card h2 {
+    margin-bottom: 6px;
+}
+
+.profile-card p {
+    color: gray;
+    margin-bottom: 18px;
+}
+
+.edit-btn {
+    border: none;
+    background: #387ed1;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.profile-section {
+    background: white;
+    padding: 22px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+
+.profile-section h3 {
+    margin-bottom: 18px;
+}
+
+.profile-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #ececec;
+}
+
+.profile-row:last-child {
+    border-bottom: none;
+}
+
+.total {
+    font-weight: 600;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #e53935;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #c62828;
+}
