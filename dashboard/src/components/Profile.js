@@ -5,6 +5,7 @@ const Profile = () => {
 
     const [profile, setProfile] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         fetchProfile();
@@ -16,9 +17,17 @@ const Profile = () => {
                 credentials: "include"
             });
 
+            if(!response.ok){
+                throw new Error("Could not fetch the profile data!");
+            }
+
             const data = await response.json();
 
             setProfile(data);
+        }
+        catch(err){
+            console.log(err.message);
+            setIsError(true);
         }
         finally {
             setIsLoading(false);
@@ -27,22 +36,41 @@ const Profile = () => {
 
     const handleLogout = async () => {
         try{
-            await fetch(process.env.REACT_APP_LOGOUT, {
+            const res = await fetch(process.env.REACT_APP_LOGOUT, {
                 method: "POST",
                 credentials: "include",
+                headers: {
+                "Content-Type": "application/json"
+                }
             })
+
+            if(!res.ok){
+                throw new Error("Coule not logout!");
+            }
+
+            window.location.replace(process.env.REACT_APP_FRONTENDURL);
         }
         catch(err){
-
+            console.log(err.message);
+            alert("logout failed");
         }
     }
 
-    if (isLoading)
+    if (isLoading){
         return (
             <div className="profile-loader">
                 <CircularProgress />
             </div>
         );
+    }
+
+    if(isError){
+        return(
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+            <p style = {{textAlign: "center"}}>Error getting the holdings data!</p>
+        </div>
+        )
+    }
 
     const { user, account, stats } = profile;
 
@@ -126,7 +154,7 @@ const Profile = () => {
 
             </div>
 
-            <button className="logout-btn">
+            <button className="logout-btn" onClick={handleLogout}>
                 Logout
             </button>
 
