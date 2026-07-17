@@ -1281,3 +1281,39 @@ hr {
 .logout-btn:hover {
     background: #c62828;
 }
+
+.positions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.positions-header .title {
+    margin: 0;
+}
+
+.close-all-btn {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f44336;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.close-all-btn:hover {
+    background-color: #d32f2f;
+}
+
+.close-all-btn:active {
+    transform: scale(0.98);
+}
+
+.close-all-btn:disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}

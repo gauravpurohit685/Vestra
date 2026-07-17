@@ -6,12 +6,32 @@ import PositionsItem from "./PositionsItems";
 
 import ConfirmDialogBox from "./ConfirmDialogBox";
 
+import WatchListContext from "../context/watchListContext";
+
+const getPrices = (watchListData, positions) => {
+    const prices = {};
+
+    // Create a set of all position symbols for O(1) lookup
+    const positionSymbols = new Set(
+        positions.map((position) => position.symbol)
+    );
+
+    watchListData.forEach((stock) => {
+        if (positionSymbols.has(stock.symbol)) {
+            prices[stock.symbol] = stock.currentPrice;
+        }
+    });
+
+    return prices;
+};
 
 const Positions = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [positions, setPositions] = useState([]);
+
+    const {watchListData} = useContext(WatchListContext);
 
     const [dialogData, setDialogData] = useState(null);
 
@@ -52,14 +72,53 @@ const Positions = () => {
     if(isError){
       return(
         <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
-          <p style = {{textAlign: "center"}}>Error getting the holdings data!</p>
+          <p style = {{textAlign: "center"}}>Error getting the positions data!</p>
         </div>
       )
     }
 
+    const prices = getPrices(watchListData, positions);
+
+    const handleCloseAll = async () => {
+      try{
+          const response = await fetch(process.env.REACT_APP_CLOSEALL, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prices
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to place order.");
+        }
+
+        alert("All positions closed successfully!");
+
+        window.location.reload();
+      }
+      catch(err){
+        console.log(err.message);
+        alert("Unable to close positions")
+      }
+    }
+
   return (
     <>
+      <div className="positions-header">
       <h3 className="title">Positions ({positions.length})</h3>
+
+      <button
+        className="close-all-btn"
+        onClick={handleCloseAll}
+        disabled={positions.length === 0}
+      >
+        Close All
+      </button>
+    </div>
 
       <div className="order-table">
         <table>
