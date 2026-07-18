@@ -7,11 +7,11 @@ const OpenAccount = () => {
     return (
         <div className='container text-center my-5 pt-5 border-bottom pb-4'>
                 <div className='row'>
-                        <h2>Open a Zerodha account</h2>
+                        <h2>SignUp for Vestra</h2>
                     </div>
                 <div className='row'>
                         <p>
-                            Modern platforms and apps, ₹0 investments, and flat ₹20 intraday and F&O trades.
+                            Everything you need to learn the stock market—live prices, virtual funds, and realistic paper trading, all at no cost.
                         </p>
                 </div>
                 <div className='row'>

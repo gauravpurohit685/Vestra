@@ -12,25 +12,25 @@ const Pricing = () => {
             <div className='row'>
                 <div className='col-6'>
                     <h2 className='row'>Unbeatable pricing</h2>
-                    <p>We pioneered the concept of discount broking and price <br/> transparency in India. Flat fees and no hidden charges</p>
+                    <p>Master the stock market with a realistic paper trading experience<br /> Practice using live market data, virtual funds,<br/> and powerful portfolio tools—all completely free.</p>
                     <Link to = "/pricing" className='text-text-primary ' style={{textDecoration: "none", cursor: "pointer"}}>See pricing {<FaArrowRight />}</Link>
                 </div>
                 <div className='col-6'>
                     <div className='row'>
                         <div className='col-6 border p-4'>
                             <h3 className='mb-2'>
-                                ₹0
+                                $0
                             </h3>
                             <p>
-                                Free equity delivery<br/> and direct mutual funds
+                                Live Market Data
                             </p>
                         </div>
                         <div className='col-6 border p-4'>
                             <h3 className='mb-2'>
-                                ₹20
+                                $0
                             </h3>
                             <p>
-                                Intraday and F&O
+                                Paper Trading
                             </p>
                         </div>
                     </div>

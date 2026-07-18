@@ -16,7 +16,7 @@ const Hero = () => {
             </div>
             <div className='row'>
                 <p>
-                    Online platform to invest in stocks, derivatives, mutual funds, ETFs, bonds, and more.
+                    Learn, practice, and master the stock market without risking real money.
                 </p>
             </div>
             <div className='row'>

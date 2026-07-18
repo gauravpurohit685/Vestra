@@ -35,7 +35,8 @@ profileRouter.get("/profile", async (req, res) =>{
                 })
             ]);
 
-            res.json({user: {firstName, lastName, emailId},
+            res.json(
+                    {user: {firstName, lastName, emailId},
                     account: account,
                     stats: {
                         holdings: holdings.length,

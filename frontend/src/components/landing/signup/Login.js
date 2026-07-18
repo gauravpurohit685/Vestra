@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-import signupImg from "url:../../../../public/signupImg.png";
+import homeHero from "url:../../../../public/homeHero.png";
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import login from '../../../utils/login';
@@ -37,7 +37,7 @@ const Login = () => {
 
                 <div className='row pt-5'>
                     <div className='col-6'>
-                        <img src = {signupImg} style = {{width: "100%"}}/>
+                        <img src = {homeHero} style = {{width: "100%"}}/>
                     </div>
                     <div className='col-6'>
                         <div className="card shadow-sm p-4 border-0">

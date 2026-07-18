@@ -7,23 +7,29 @@ const Brokerage = () => {
     return (
         <div className='container'>
             <div className='row'>
-                <div className='col-8'>
+                <div className='col-6'>
                     <h3 className='text-primary text-center mb-5' >
-                        Brokerage Calculator
+                        Free Forever
                     </h3>
                     <ul className='text-muted' style={{lineHeight: 2}}>
-                        <li>Call & Trade and RMS auto-squareoff: Additional charges of ₹50 + GST per order.</li>
-                        <li>Digital contract notes will be sent via e-mail.</li>
-                        <li>Physical copies of contract notes, if required, shall be charged ₹20 per contract note. Courier charges applied</li>
-                        <li>For NRI account (non-PIS), 0.5% or ₹100 per executed order for equity (whichever is lower)</li>
-                        <li>For NRI account (PIS), 0.5% or ₹200 per executed order for equity(whichever is lower)</li>
-                        <li>If the account is in debit balance, any order placed with be charged ₹40 per executed order instead of ₹20 per executed order</li>
+                        <li>No subscription fees or hidden charges.</li>
+                        <li>Unlimited paper trading with virtual funds.</li>
+                        <li>Access to real-time market data.</li>
+                        <li>Track orders, holdings, and positions at no cost.</li>
+                        <li>Create an account and start trading instantly.</li>
                     </ul>
                 </div>
-                <div className='col-4'>
-                    <h3 className='text-primary text-center'>
-                        List of charges
+                <div className='col-6'>
+                    <h3 className='text-primary text-center mb-5'>
+                        What's Included
                     </h3>
+                    <ul className='text-muted' style={{lineHeight: 2}}>
+                        <li>✔ Real-time market data.</li>
+                        <li>✔ Unlimited virtual portfolio.</li>
+                        <li>✔ Live watchlist.</li>
+                        <li>✔ Orders & Holdings management.</li>
+                        <li>✔ Paper trading experience.</li>
+                    </ul>
                 </div>
             </div>
         </div>

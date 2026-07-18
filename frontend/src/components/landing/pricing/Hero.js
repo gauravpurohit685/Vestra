@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import pricing0 from "url:../../../../public/pricing0.svg";
-import intradayTrades from "url:../../../../public/intradayTrades.svg";
 
 const Hero = () => {
 
@@ -15,22 +14,21 @@ const Hero = () => {
                 <div className='row'>
                     <div className='col-4'> 
                         <img src = {pricing0}/>
-                        <h3 className='mb-4'>Free equity delivery</h3>
-                        <p style = {{lineHeight: 2}}>All equity delivery investments (NSE, BSE), are absolutely free — ₹ 0 brokerage.</p>
-                    </div>
-                    <div className='col-4'> 
-                        <img src = {intradayTrades}/>
-                        <h3 className='mb-4'>Intraday and F&O trades</h3>
-                        <p style = {{lineHeight: 2}}>Flat ₹ 20 or 0.03% (whichever is lower) per executed order on intraday trades across equity, currency, and commodity trades. Flat ₹20 on all option trades.</p>
+                        <h3 className='mb-4'>Free Forever</h3>
+                        <p style = {{lineHeight: 2}}>Practice stock trading with unlimited virtual funds—no subscriptions, no hidden charges, and no risk to your real money.</p>
                     </div>
                     <div className='col-4'> 
                         <img src = {pricing0}/>
-                        <h3 className='mb-4'>Free direct MF</h3>
-                        <p style = {{lineHeight: 2}}>All direct mutual fund investments are absolutely free — ₹ 0 commissions & DP charges.</p>
+                        <h3 className='mb-4'>Live Market Data</h3>
+                        <p style = {{lineHeight: 2}}>Trade using live market prices and experience realistic market conditions with instant portfolio updates.</p>
+                    </div>
+                    <div className='col-4'> 
+                        <img src = {pricing0}/>
+                        <h3 className='mb-4'>Paper Trading</h3>
+                        <p style = {{lineHeight: 2}}>Build confidence, test strategies, and sharpen your trading skills without risking a single rupee.</p>
                     </div>
                 </div>
-            </div> 
-                 
+            </div>                  
         </div>
         
     )

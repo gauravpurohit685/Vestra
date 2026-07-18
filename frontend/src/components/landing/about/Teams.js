@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
-import nithinKamath from "url:../../../../public/nithinKamath.jpg"
+import nithinKamath from "url:../../../../public/gauravPurohit.png"
 
 const Teams = () => {
     return (
@@ -10,14 +10,14 @@ const Teams = () => {
             <div className='row'>
                 <div className='col-6 text-center' style={{paddingTop: "5rem"}}>
                     <img src = {nithinKamath} className='mb-3' style={{width: "50%", borderRadius : "50%"}}/>
-                    <p className='fs-5'>Nithin Kamath</p>
+                    <p className='fs-5'>Gaurav Purohit</p>
                     <p>Founder, CEO</p>
                 </div>
                 <div className='col-6'>
                     <h3 style ={{marginBottom: "5rem"}}>People</h3>
-                    <p>Nithin bootstrapped and founded Zerodha in 2010 to overcome the hurdles he faced during his decade long stint as a trader. Today, Zerodha has changed the landscape of the Indian broking industry.</p>
-                    <p>He is a member of the SEBI Secondary Market Advisory Committee (SMAC) and the Market Data Advisory Committee (MDAC).</p>
-                    <p>Playing basketball is his zen.</p>
+                    <p>Gaurav Purohit founded Vestra to make stock market learning more accessible through a realistic paper trading experience. As a Computer Science student, he built the platform from scratch to combine modern web technologies with real-time market simulation.</p>
+                    <p>He is passionate about full-stack development, algorithmic problem solving, and building products that solve real-world problems.</p>
+                    <p>When he's not coding, you'll probably find him solving competitive programming problems, working out at the gym, or exploring new technologies.</p>
                 </div>
             </div>
             

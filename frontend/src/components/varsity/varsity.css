@@ -1,0 +1,593 @@
+/* ===========================
+   GLOBAL
+=========================== */
+
+*{
+    box-sizing:border-box;
+}
+
+.varsity{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#0F172A;
+
+    color:white;
+
+    font-family:Inter,sans-serif;
+
+}
+
+/* ===========================
+   SIDEBAR
+=========================== */
+
+.varsity-sidebar{
+
+    width:320px;
+
+    background:#111827;
+
+    border-right:1px solid #263244;
+
+    overflow-y:auto;
+
+}
+
+.sidebar-header{
+
+    padding:30px;
+
+    border-bottom:1px solid #263244;
+
+}
+
+.sidebar-header h2{
+
+    margin-bottom:10px;
+
+    font-size:28px;
+
+}
+
+.sidebar-header p{
+
+    color:#9CA3AF;
+
+    line-height:1.6;
+
+}
+
+.lesson-list{
+
+    padding:15px;
+
+}
+
+.lesson-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    margin-bottom:12px;
+
+    transition:.25s;
+
+    border:1px solid transparent;
+
+}
+
+.lesson-item:hover{
+
+    background:#1E293B;
+
+    transform:translateX(5px);
+
+}
+
+.lesson-item.active{
+
+    background:#2563EB;
+
+    border-color:#60A5FA;
+
+}
+
+.lesson-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.lesson-icon{
+
+    font-size:28px;
+
+}
+
+.lesson-item h4{
+
+    margin:0;
+
+    font-size:16px;
+
+}
+
+.lesson-item small{
+
+    color:#CBD5E1;
+
+}
+
+.completed-icon{
+
+    color:#22C55E;
+
+}
+
+.pending-icon{
+
+    color:#6B7280;
+
+}
+
+.active-icon{
+
+    color:white;
+
+}
+
+/* ===========================
+   CONTENT
+=========================== */
+
+.varsity-content{
+
+    flex:1;
+
+    padding:40px;
+
+    overflow-y:auto;
+
+}
+
+.varsity-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:40px;
+
+}
+
+.varsity-header h1{
+
+    font-size:40px;
+
+    margin-bottom:10px;
+
+}
+
+.varsity-header p{
+
+    color:#94A3B8;
+
+}
+
+/* ===========================
+   PROGRESS
+=========================== */
+
+.progress-box{
+
+    width:260px;
+
+}
+
+.progress-box span{
+
+    font-size:14px;
+
+}
+
+.progress-bar{
+
+    height:12px;
+
+    background:#1E293B;
+
+    border-radius:50px;
+
+    margin-top:12px;
+
+    overflow:hidden;
+
+}
+
+.progress-fill{
+
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        #3B82F6,
+        #60A5FA
+    );
+
+    transition:.4s;
+
+}
+
+/* ===========================
+   LESSON
+=========================== */
+
+.lesson-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:25px;
+
+}
+
+.lesson-header{
+
+    background:linear-gradient(
+        135deg,
+        #2563EB,
+        #1E40AF
+    );
+
+    padding:35px;
+
+    border-radius:18px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+
+}
+
+.lesson-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.lesson-emoji{
+
+    font-size:60px;
+
+}
+
+.lesson-title h1{
+
+    margin-bottom:10px;
+
+    font-size:36px;
+
+}
+
+.lesson-title p{
+
+    color:#DBEAFE;
+
+}
+
+/* ===========================
+   CARDS
+=========================== */
+
+.lesson-card{
+
+    background:#1E293B;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    border:1px solid #334155;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+}
+
+.lesson-card h2{
+
+    margin-bottom:18px;
+
+}
+
+.lesson-card p{
+
+    line-height:1.8;
+
+    color:#CBD5E1;
+
+}
+
+.lesson-card ul{
+
+    margin-left:25px;
+
+    line-height:2;
+
+}
+
+.lesson-card li{
+
+    margin-bottom:8px;
+
+}
+
+.example-card{
+
+    border-left:5px solid #3B82F6;
+
+}
+
+.tip-card{
+
+    border-left:5px solid #22C55E;
+
+    background:#102A1B;
+
+}
+
+/* ===========================
+   QUIZ
+=========================== */
+
+.quiz-options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    margin-top:20px;
+
+}
+
+.quiz-option{
+
+    background:#111827;
+
+    border:2px solid transparent;
+
+    color:white;
+
+    padding:16px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    transition:.25s;
+
+}
+
+.quiz-option:hover{
+
+    border-color:#3B82F6;
+
+}
+
+.quiz-option.selected{
+
+    background:#2563EB;
+
+    border-color:#60A5FA;
+
+}
+
+.submit-answer{
+
+    margin-top:25px;
+
+    background:#3B82F6;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 26px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.25s;
+
+}
+
+.submit-answer:hover{
+
+    background:#2563EB;
+
+}
+
+.submit-answer:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+.correct-answer{
+
+    margin-top:20px;
+
+    background:#14532D;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    color:#BBF7D0;
+
+}
+
+.wrong-answer{
+
+    margin-top:20px;
+
+    background:#7F1D1D;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    color:#FECACA;
+
+}
+
+/* ===========================
+   NAVIGATION
+=========================== */
+
+.navigation-buttons{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:40px;
+
+}
+
+.navigation-buttons button{
+
+    background:#2563EB;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 26px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.25s;
+
+}
+
+.navigation-buttons button:hover{
+
+    background:#1D4ED8;
+
+}
+
+.navigation-buttons button:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+}
+
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#334155;
+
+    border-radius:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0F172A;
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:950px){
+
+    .varsity{
+
+        flex-direction:column;
+
+    }
+
+    .varsity-sidebar{
+
+        width:100%;
+
+        height:auto;
+
+        border-right:none;
+
+        border-bottom:1px solid #263244;
+
+    }
+
+    .varsity-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:25px;
+
+    }
+
+    .progress-box{
+
+        width:100%;
+
+    }
+
+    .lesson-title{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+}

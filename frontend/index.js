@@ -5,11 +5,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import HomePage from "./src/components/landing/home/HomePage";
 import AboutPage from "./src/components/landing/about/AboutPage";
-import ProductPage from "./src/components/landing/products/ProductPage";
 import PricingPage from "./src/components/landing/pricing/PricingPage";
-import SupportPage from "./src/components/landing/support/SupportPage";
 import Signup from "./src/components/landing/signup/Signup";
 import Login from "./src/components/landing/signup/Login";
+import Varsity from "./src/components/varsity/Varsity";
 
 
 
@@ -78,16 +77,8 @@ const appRouter = createBrowserRouter([
         element: <AboutPage />
     },
     {
-        path: "/product",
-        element: <ProductPage />
-    },
-    {
         path: "/pricing",
         element: <PricingPage />
-    },
-    {
-        path: "/support",
-        element: <SupportPage />
     },
     {
         path: "/signup",
@@ -96,6 +87,10 @@ const appRouter = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "/varsity",
+        element: <Varsity />
     }
 ])
 
