@@ -21,8 +21,8 @@ const connectToWebsocket = require("./src/service/socketService");
 require("dotenv").config();
 
 const allowedOrigins = [
-    "http://localhost:1234", // Landing
-    "http://localhost:3000"  // Dashboard
+    "https://vestra-frontend-two.vercel.app", // Landing
+    "https://vestra-eta.vercel.app"  // Dashboard
 ];
 
 const app = express();
