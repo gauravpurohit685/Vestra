@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Varsity.css";
+import "./varsity.css";
 
 import Sidebar from "./Sidebar";
 import Lesson from "./Lesson";
