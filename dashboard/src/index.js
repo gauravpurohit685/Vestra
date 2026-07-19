@@ -35,7 +35,7 @@ const Root = () => {
         catch(err){
             console.log("Some error occured while verifying!");
             console.log("User is logged out!");
-            window.location.replace(process.env.REACT_APP_FRONTENDURL);
+            // window.location.replace(process.env.REACT_APP_FRONTENDURL);
         }
 
         finally{
