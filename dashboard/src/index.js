@@ -47,7 +47,7 @@ const Root = () => {
 
     if(loadState){
       return(
-            <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100%"}}>
+            <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh"}}>
               <CircularProgress />
             </div>
       )
