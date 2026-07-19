@@ -144,7 +144,7 @@ const Summary = () => {
         <div className="data">
           <div className="first">
             <h3 className="profit">
-              ${(holdProfit - holdInvestment).toFixed(2)}K <small>{(holdProfit - holdInvestment) >= 0 ? "+": "-"}{holdPercent.toFixed(2)}%</small>{" "}
+              ${(holdProfit - holdInvestment).toFixed(2)}K <small>{(holdProfit - holdInvestment) >= 0 ? "+": ""}{holdPercent.toFixed(2)}%</small>{" "}
             </h3>
             <p>P&L</p>
           </div>
@@ -170,7 +170,7 @@ const Summary = () => {
         <div className="data">
           <div className="first">
             <h3 className="profit">
-              ${(possProfit - possInvestment).toFixed(2)}K<small>{(possProfit - possInvestment)>= 0 ? "+":"-"}{possPercent.toFixed(2)}%</small>{" "}
+              ${(possProfit - possInvestment).toFixed(2)}K<small>{(possProfit - possInvestment)>= 0 ? "+":""}{possPercent.toFixed(2)}%</small>{" "}
             </h3>
             <p>P&L</p>
           </div>

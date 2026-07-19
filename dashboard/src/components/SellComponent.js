@@ -78,7 +78,7 @@ const SellComponent = ({ symbol, onClose }) => {
       <h3>{symbol}</h3>
 
       <h2 className="stock-price">
-        ₹{price.toFixed(2)}
+        ${price.toFixed(2)}
       </h2>
 
       <div>

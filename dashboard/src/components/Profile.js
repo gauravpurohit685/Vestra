@@ -98,18 +98,18 @@ const Profile = () => {
 
                 <div className="profile-row">
                     <span>Cash Account</span>
-                    <span>₹ {account.cashBalance.toLocaleString()}</span>
+                    <span>$ {account.cashBalance.toLocaleString()}</span>
                 </div>
 
                 <div className="profile-row">
                     <span>Trading Account</span>
-                    <span>₹ {account.tradingBalance.toLocaleString()}</span>
+                    <span>$ {account.tradingBalance.toLocaleString()}</span>
                 </div>
 
                 <div className="profile-row total">
                     <span>Total Funds</span>
                     <span>
-                        ₹ {(account.cashBalance + account.tradingBalance).toLocaleString()}
+                        $ {(account.cashBalance + account.tradingBalance).toLocaleString()}
                     </span>
                 </div>
 

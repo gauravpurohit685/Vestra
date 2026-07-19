@@ -71,7 +71,7 @@ const TransferComponent = ({ type, onclose }) => {
 
         <input
           type="number"
-          placeholder="Enter amount (₹)"
+          placeholder="Enter amount ($)"
           value={amount}
           min={1}
           step={1}
