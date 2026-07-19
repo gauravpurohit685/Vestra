@@ -1,4 +1,4 @@
-![Vestra Banner Placeholder](https://via.placeholder.com/1200x400?text=Vestra+Trading+Platform)
+![Vestra Banner Placeholder](frontend/public/homeHero.png)
 
 # VESTRA
 
