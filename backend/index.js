@@ -22,7 +22,7 @@ require("dotenv").config();
 
 const allowedOrigins = [
     "https://vestra-frontend-two.vercel.app", // Landing
-    "https://vestra-eta.vercel.app"  // Dashboard
+    "https://vestra-dashboard-jade.vercel.app/"  // Dashboard
 ];
 
 const app = express();
