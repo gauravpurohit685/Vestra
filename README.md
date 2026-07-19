@@ -84,11 +84,11 @@ graph TD
 
 | Landing Page | Trading Dashboard |
 | :---: | :---: |
-| ![Landing Page Placeholder](https://via.placeholder.com/500x300?text=Landing+Page) | ![Dashboard Placeholder](https://via.placeholder.com/500x300?text=Trading+Dashboard) |
+| ![Landing Page Placeholder](assets/landing.png) | ![Dashboard Placeholder](assets/dashboard.png) |
 
 | Portfolio Summary | Varsity Education |
 | :---: | :---: |
-| ![Portfolio Placeholder](https://via.placeholder.com/500x300?text=Portfolio+Summary) | ![Varsity Placeholder](https://via.placeholder.com/500x300?text=Varsity+Education) |
+| ![Portfolio Placeholder](assets/portfolio.png) | ![Varsity Placeholder](assets/varsity.png) |
 
 ## 🚀 Installation
 
