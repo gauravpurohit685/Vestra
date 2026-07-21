@@ -8,6 +8,8 @@ import lessons from "./lesson.js";
 const Varsity = () => {
 
     const [currentLesson, setCurrentLesson] = useState(0);
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
 
     const totalLessons = lessons.length;
 
@@ -18,12 +20,18 @@ const Varsity = () => {
         if (currentLesson < totalLessons - 1) {
             setCurrentLesson(currentLesson + 1);
         }
+
+        setSelectedOption(null);
+        setSubmitted(false);
     };
 
     const handlePrevious = () => {
         if (currentLesson > 0) {
             setCurrentLesson(currentLesson - 1);
         }
+
+        setSelectedOption(null);
+        setSubmitted(false);
     };
 
     return (
@@ -73,6 +81,10 @@ const Varsity = () => {
 
                 <Lesson
                     lesson={lessons[currentLesson]}
+                    selectedOption = {selectedOption}
+                    submitted = {submitted}
+                    setSelectedOption = {setSelectedOption}
+                    setSubmitted = {setSubmitted}
                 />
 
                 <div className="navigation-buttons">

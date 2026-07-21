@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import "./varsity.css";
 
-const Lesson = ({ lesson }) => {
+const Lesson = ({ lesson, submitted, setSubmitted, selectedOption, setSelectedOption }) => {
 
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = () => {
 
