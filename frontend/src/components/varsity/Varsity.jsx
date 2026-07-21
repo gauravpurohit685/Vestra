@@ -41,6 +41,8 @@ const Varsity = () => {
                 lessons={lessons}
                 currentLesson={currentLesson}
                 setCurrentLesson={setCurrentLesson}
+                setSelectedOption = {setSelectedOption}
+                setSubmitted = {setSubmitted}
             />
 
             <div className="varsity-content">

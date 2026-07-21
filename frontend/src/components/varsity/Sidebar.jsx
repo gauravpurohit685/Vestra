@@ -11,6 +11,8 @@ const Sidebar = ({
     lessons,
     currentLesson,
     setCurrentLesson,
+    setSelectedOption,
+    setSubmitted
 }) => {
 
     return (
@@ -47,8 +49,11 @@ const Sidebar = ({
                                         ? "lesson-item active"
                                         : "lesson-item"
                                 }
-                                onClick={() =>
-                                    setCurrentLesson(index)
+                                onClick={() =>{
+                                        setCurrentLesson(index);
+                                        setSubmitted(false);
+                                        setSelectedOption(null);
+                                    }
                                 }
                             >
 
